@@ -1,5 +1,5 @@
 
 ```mermaid
 graph TD;
-    A->>B;
+    A --> |"label text"| B;
 ```
