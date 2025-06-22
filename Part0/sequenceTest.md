@@ -1,4 +1,5 @@
 ```mermaid
+graph TD;
     participant browser
     participant server
 ```
