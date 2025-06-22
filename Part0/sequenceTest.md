@@ -1,6 +1,6 @@
 ```mermaid
 graph TD;
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes;
+    A-->B;
 ```
     activate server
     server-->>browser: HTML document
