@@ -1,6 +1,5 @@
 ```mermaid
-graph TD;
-    A-->B;
+participant browser;
 ```
     activate server
     server-->>browser: HTML document
