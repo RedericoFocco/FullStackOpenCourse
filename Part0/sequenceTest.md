@@ -1,5 +1,7 @@
 
 ```mermaid
-graph TD;
-    A --> |"label text"| B;
+sequenceDiagram
+    Alice->>John: Hello John, how are you?
+    John-->>Alice: Great!
+    Alice-)John: See you later!
 ```
