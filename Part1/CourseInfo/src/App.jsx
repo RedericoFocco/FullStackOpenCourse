@@ -2,7 +2,7 @@ const Header = (course) => {
   console.log(course)
   return(
   <>
-    <h1>Course {course.name}</h1>
+    <h1>Course {course.course_name}</h1>
   </>
   )
 }
@@ -42,26 +42,28 @@ const sum = (arr) => {
 }
 
 const App = () => {
-  const course = 'Half Stack application development'
-  const parts = [{
-    name: 'Fundamentals of React',
-    exercises: 10
-  },
+  const course =
   {
-    name: 'Using props to pass data',
-    exercises: 7
-  },
-  {
-    name: 'State of a component',
-    exercises: 14
-  }]
-  console.log('sum:')   
-  console.log(sum(parts))
+    name:'Half Stack application development',
+    parts :[{
+      name: 'Fundamentals of React',
+      exercises: 10
+    },
+    {
+      name: 'Using props to pass data',
+      exercises: 7
+    },
+    {
+      name: 'State of a component',
+      exercises: 14
+    }]
+  }
+
   return (
     <div>
-      <Header name={course}/>
-      <Content content1={parts[0]} content2={parts[1]} content3={parts[2]}/>
-      <Total tot_num_of_exercises={sum(parts)}/>
+      <Header course_name={course.name}/>
+      <Content content1={course.parts[0]} content2={course.parts[1]} content3={course.parts[2]}/>
+      <Total tot_num_of_exercises={sum(course.parts)}/>
     </div>
   )
 }
