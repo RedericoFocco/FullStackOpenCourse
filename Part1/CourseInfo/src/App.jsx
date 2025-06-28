@@ -35,26 +35,33 @@ const Total = (tot) => {
   )
 }
 
+const sum = (arr) => {
+  let init = 0
+  arr.forEach(x=>{init=init+x.exercises})
+  return init
+}
+
 const App = () => {
   const course = 'Half Stack application development'
-  const part1 = {
+  const parts = [{
     name: 'Fundamentals of React',
     exercises: 10
-  }
-  const part2 = {
+  },
+  {
     name: 'Using props to pass data',
     exercises: 7
-  }
-  const part3 = {
+  },
+  {
     name: 'State of a component',
     exercises: 14
-  }
-
+  }]
+  console.log('sum:')   
+  console.log(sum(parts))
   return (
     <div>
       <Header name={course}/>
-      <Content content1={part1} content2={part2} content3={part3}/>
-      <Total tot_num_of_exercises={part1.exercises+part2.exercises+part3.exercises}/>
+      <Content content1={parts[0]} content2={parts[1]} content3={parts[2]}/>
+      <Total tot_num_of_exercises={sum(parts)}/>
     </div>
   )
 }
