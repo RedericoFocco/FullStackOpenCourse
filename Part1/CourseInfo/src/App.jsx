@@ -8,22 +8,20 @@ const Header = (course) => {
 }
 
 const Part = (part) => {
+  console.log('in part')
   console.log(part)
   return (
     <p>Part {part.name} has {part.number} exercises</p>
   )
 }
 
-const Content = ({exercise_number}) => {
-  console.log(Array.isArray(exercise_number))
-  const part1 = 'Fundamentals of React'
-  const part2 = 'Using props to pass data'
-  const part3 = 'State of a component'
+const Content = ({content1,content2,content3}) => {
+  console.log(content1.name)
   return (
     <div>
-      <Part name={part1} number={exercise_number[0]}/>
-      <Part name={part2} number={exercise_number[1]}/>
-      <Part name={part3} number={exercise_number[2]}/>
+      <Part name={content1.name} number={content1.exercises} />
+      <Part name={content2.name} number={content2.exercises} />
+      <Part name={content3.name} number={content3.exercises} />
     </div>
   )
 }
@@ -39,17 +37,24 @@ const Total = (tot) => {
 
 const App = () => {
   const course = 'Half Stack application development'
-  const exercises = [10,20,30]
-
-  console.log('exercises in App:', exercises)
-  console.log('Array.isArray(exercises):', Array.isArray(exercises))
-  
+  const part1 = {
+    name: 'Fundamentals of React',
+    exercises: 10
+  }
+  const part2 = {
+    name: 'Using props to pass data',
+    exercises: 7
+  }
+  const part3 = {
+    name: 'State of a component',
+    exercises: 14
+  }
 
   return (
     <div>
       <Header name={course}/>
-      <Content exercise_number={exercises}/>
-      <Total tot_num_of_exercises={exercises.reduce((totalExercises, ex) => totalExercises + ex, 0)} />
+      <Content content1={part1} content2={part2} content3={part3}/>
+      <Total tot_num_of_exercises={part1.exercises+part2.exercises+part3.exercises}/>
     </div>
   )
 }
