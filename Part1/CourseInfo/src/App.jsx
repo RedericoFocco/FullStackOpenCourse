@@ -8,16 +8,30 @@ const DisplayVotes = (prop) => {
   const totalVotes=prop.numberGood+prop.numberBad+prop.numberNeutral
   const totalPositives=(prop.numberGood/totalVotes)*100
   const averageVotes=(prop.numberGood-prop.numberBad)/totalVotes
-  return (
-    <div>
-      <p>Good {prop.numberGood}</p>
-      <p>Neutral {prop.numberNeutral}</p>
-      <p>Bad {prop.numberBad}</p>
-      <p>All {totalVotes}</p>
-      <p>Average {averageVotes}%</p>
-      <p>Positive Feedbacks {totalPositives}%</p>
+  console.log('Total Votes:',totalVotes)
+  if (totalVotes>0)
+  {
+    return (
+      <div>
+        <p>Good {prop.numberGood}</p>
+        <p>Neutral {prop.numberNeutral}</p>
+        <p>Bad {prop.numberBad}</p>
+        <p>All {totalVotes}</p>
+        <p>Average {averageVotes}%</p>
+        <p>Positive Feedbacks {totalPositives}%</p>
+      </div>
+    )
+  }
+  else
+  {
+    console.log('Entered the else statement properl')
+    return (
+    <div>    
+      No Feedback Given!
     </div>
-  )
+    )
+  }
+
 }
 
 const App = () => {
