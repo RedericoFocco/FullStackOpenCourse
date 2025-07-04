@@ -25,7 +25,6 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
-  const [all, setAll] = useState([])
 
   const IncreaseGood = () => {setGood(good+1)}
   const IncreaseNeutral = () => {setNeutral(neutral+1)}
