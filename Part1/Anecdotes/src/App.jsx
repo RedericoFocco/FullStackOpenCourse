@@ -3,6 +3,8 @@ import { useState } from 'react'
 
 const Button = ({onClick,text}) => <button onClick={onClick}>{text}</button>
 
+const MostVotes = (p) => <h1>{p.text}</h1>
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -22,6 +24,10 @@ const App = () => {
   const [vote, setVote] = useState([...voted])
 
   console.log(voted[selected])
+
+  Array.prototype.maxIndex = function() {
+  return this.indexOf(Math.max.apply(null, this));
+  };
 
   const generateAnecdote = () => {setSelected(Math.floor(Math.random()*anecdotes.length))}
 
@@ -43,6 +49,8 @@ const App = () => {
       <p>has {vote[selected]} votes</p>
       <Button onClick={incrementVotesArr} text={'vote'} />
       <Button onClick={generateAnecdote} text={'next anecdote'} />
+      <MostVotes text={'Anecdote with most votes'}/>
+      <p>{anecdotes[vote.maxIndex()]} has {vote[vote.maxIndex()]} votes</p>
     </div>
   )
 }
