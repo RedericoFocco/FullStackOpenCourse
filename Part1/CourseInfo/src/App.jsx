@@ -4,7 +4,7 @@ const DisplayHeaders = (prop) => <h1>{prop.text}</h1>
 
 const Button = ({onClick,text}) => <button onClick={onClick}>{text}</button>
 
-const StatisticLine = ({text,value}) => <div>{text} {value}</div>
+const StatisticLine = ({text,value}) => <tr><td>{text}</td><td>{value}</td></tr>
 
 const Statistics = (prop) => {
   const totalVotes=prop.numberGood+prop.numberBad+prop.numberNeutral
