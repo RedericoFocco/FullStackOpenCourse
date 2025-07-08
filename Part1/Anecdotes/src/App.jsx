@@ -1,69 +1,29 @@
-const Header = (course) => {
-  console.log(course)
-  return(
-  <>
-    <h1>Course {course.course_name}</h1>
-  </>
-  )
-}
+import { useState } from 'react'
 
-const Part = (part) => {
-  console.log('in part')
-  console.log(part)
-  return (
-    <p>Part {part.name} has {part.number} exercises</p>
-  )
-}
 
-const Content = ({content1,content2,content3}) => {
-  console.log(content1.name)
-  return (
-    <div>
-      <Part name={content1.name} number={content1.exercises} />
-      <Part name={content2.name} number={content2.exercises} />
-      <Part name={content3.name} number={content3.exercises} />
-    </div>
-  )
-}
-
-const Total = (tot) => {
-  console.log(tot)
-  return(
-  <>
-    <p>Total number of exercises {tot.tot_num_of_exercises}</p>
-  </>
-  )
-}
-
-const sum = (arr) => {
-  let init = 0
-  arr.forEach(x=>{init=init+x.exercises})
-  return init
-}
+const Button = ({onClick,text}) => <button onClick={onClick}>{text}</button>
 
 const App = () => {
-  const course =
-  {
-    name:'Half Stack application development',
-    parts :[{
-      name: 'Fundamentals of React',
-      exercises: 10
-    },
-    {
-      name: 'Using props to pass data',
-      exercises: 7
-    },
-    {
-      name: 'State of a component',
-      exercises: 14
-    }]
-  }
+  const anecdotes = [
+    'If it hurts, do it more often.',
+    'Adding manpower to a late software project makes it later!',
+    'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+    'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+    'Premature optimization is the root of all evil.',
+    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
+    'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
+    'The only way to go fast, is to go well.'
+  ]
+   
+  const [selected, setSelected] = useState(0)
 
+  const generateAnecdote = () => {setSelected(Math.floor(Math.random()*anecdotes.length))}
+  console.log(anecdotes.length)
   return (
     <div>
-      <Header course_name={course.name}/>
-      <Content content1={course.parts[0]} content2={course.parts[1]} content3={course.parts[2]}/>
-      <Total tot_num_of_exercises={sum(course.parts)}/>
+      {anecdotes[selected]}
+      <p></p>
+      <Button onClick={generateAnecdote} text={'next anecdote'} />
     </div>
   )
 }
