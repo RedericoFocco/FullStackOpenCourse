@@ -1,60 +1,70 @@
-import { useState } from "react"
+const Header = (course) => {
+  console.log(course)
+  return(
+  <>
+    <h1>Course {course.course_name}</h1>
+  </>
+  )
+}
 
-const DisplayHeaders = (prop) => <h1>{prop.text}</h1>
+const Part = (part) => {
+  console.log('in part')
+  console.log(part)
+  return (
+    <p>Part {part.name} has {part.number} exercises</p>
+  )
+}
 
-const Button = ({onClick,text}) => <button onClick={onClick}>{text}</button>
-
-const StatisticLine = ({text,value}) => <tr><td>{text}</td><td>{value}</td></tr>
-
-const Statistics = (prop) => {
-  const totalVotes=prop.numberGood+prop.numberBad+prop.numberNeutral
-  const totalPositives=(prop.numberGood/totalVotes)*100
-  const averageVotes=((prop.numberGood-prop.numberBad)/totalVotes)*100
-  console.log('Total Votes:',totalVotes)
-  if (totalVotes>0)
-  {
-    return (
-      <div>
-        <StatisticLine text="Good" value ={prop.numberGood} />
-        <StatisticLine text="Neutral" value ={prop.numberNeutral} />
-        <StatisticLine text="Bad" value ={prop.numberBad} />
-        <StatisticLine text="All" value ={totalVotes} />
-        <StatisticLine text="Average" value ={averageVotes} />
-        <StatisticLine text="Positive Feedbacks" value ={totalPositives} />
-      </div>
-    )
-  }
-  else
-  {
-    console.log('Entered the else statement properl')
-    return (
-    <div>    
-      No Feedback Given!
+const Content = ({content1,content2,content3}) => {
+  console.log(content1.name)
+  return (
+    <div>
+      <Part name={content1.name} number={content1.exercises} />
+      <Part name={content2.name} number={content2.exercises} />
+      <Part name={content3.name} number={content3.exercises} />
     </div>
-    )
-  }
+  )
+}
 
+const Total = (tot) => {
+  console.log(tot)
+  return(
+  <>
+    <p>Total number of exercises {tot.tot_num_of_exercises}</p>
+  </>
+  )
+}
+
+const sum = (arr) => {
+  let init = 0
+  arr.forEach(x=>{init=init+x.exercises})
+  return init
 }
 
 const App = () => {
-  // save clicks of each button to its own state
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
-
-  const IncreaseGood = () => {setGood(good+1)}
-  const IncreaseNeutral = () => {setNeutral(neutral+1)}
-  const IncreaseBad = () => {setBad(bad+1)}
+  const course =
+  {
+    name:'Half Stack application development',
+    parts :[{
+      name: 'Fundamentals of React',
+      exercises: 10
+    },
+    {
+      name: 'Using props to pass data',
+      exercises: 7
+    },
+    {
+      name: 'State of a component',
+      exercises: 14
+    }]
+  }
 
   return (
-    <>
-      <DisplayHeaders text='Give Feedback'/>
-      <Button onClick={IncreaseGood} text='Good'/>
-      <Button onClick={IncreaseNeutral} text='Neutral'/>
-      <Button onClick={IncreaseBad} text='Bad'/>
-      <DisplayHeaders text='Statistics'/>
-      <Statistics numberGood={good} numberNeutral={neutral} numberBad={bad}/>
-    </>
+    <div>
+      <Header course_name={course.name}/>
+      <Content content1={course.parts[0]} content2={course.parts[1]} content3={course.parts[2]}/>
+      <Total tot_num_of_exercises={sum(course.parts)}/>
+    </div>
   )
 }
 
