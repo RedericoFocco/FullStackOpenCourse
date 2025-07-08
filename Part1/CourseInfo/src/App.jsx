@@ -4,21 +4,23 @@ const DisplayHeaders = (prop) => <h1>{prop.text}</h1>
 
 const Button = ({onClick,text}) => <button onClick={onClick}>{text}</button>
 
-const DisplayVotes = (prop) => {
+const StatisticLine = ({text,value}) => <div>{text} {value}</div>
+
+const Statistics = (prop) => {
   const totalVotes=prop.numberGood+prop.numberBad+prop.numberNeutral
   const totalPositives=(prop.numberGood/totalVotes)*100
-  const averageVotes=(prop.numberGood-prop.numberBad)/totalVotes
+  const averageVotes=((prop.numberGood-prop.numberBad)/totalVotes)*100
   console.log('Total Votes:',totalVotes)
   if (totalVotes>0)
   {
     return (
       <div>
-        <p>Good {prop.numberGood}</p>
-        <p>Neutral {prop.numberNeutral}</p>
-        <p>Bad {prop.numberBad}</p>
-        <p>All {totalVotes}</p>
-        <p>Average {averageVotes}%</p>
-        <p>Positive Feedbacks {totalPositives}%</p>
+        <StatisticLine text="Good" value ={prop.numberGood} />
+        <StatisticLine text="Neutral" value ={prop.numberNeutral} />
+        <StatisticLine text="Bad" value ={prop.numberBad} />
+        <StatisticLine text="All" value ={totalVotes} />
+        <StatisticLine text="Average" value ={averageVotes} />
+        <StatisticLine text="Positive Feedbacks" value ={totalPositives} />
       </div>
     )
   }
@@ -51,7 +53,7 @@ const App = () => {
       <Button onClick={IncreaseNeutral} text='Neutral'/>
       <Button onClick={IncreaseBad} text='Bad'/>
       <DisplayHeaders text='Statistics'/>
-      <DisplayVotes numberGood={good} numberNeutral={neutral} numberBad={bad}/>
+      <Statistics numberGood={good} numberNeutral={neutral} numberBad={bad}/>
     </>
   )
 }
