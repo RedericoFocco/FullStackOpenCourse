@@ -33,7 +33,7 @@ const Course = ({course})=>{
         <Header course_name={course.name}/>
         <Content content1={course.parts[0]} content2={course.parts[1]} content3={course.parts[2]}/> 
         <p>
-            Redux {course.parts.reduce((sum,part)=>sum+part.exercises,0)}
+            <b>Total of  {course.parts.reduce((sum,part)=>sum+part.exercises,0)} exercises</b>
         </p>
         </>
     )
