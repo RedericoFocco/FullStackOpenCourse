@@ -28,6 +28,7 @@ const Content = ({content1,content2,content3}) => {
 
 const Course = ({course})=>{
     console.log('Course receiving prop',course)
+    //2.3 as well
     return (
         <>
         <Header course_name={course.name}/>
