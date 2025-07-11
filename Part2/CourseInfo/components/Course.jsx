@@ -15,13 +15,23 @@ const Part = (part) => {
   )
 }
 
-const Content = ({content1,content2,content3}) => {
+/*const Content = ({content1,content2,content3}) => {
   console.log(content1.name)
   return (
     <div>
+
       <Part name={content1.name} number={content1.exercises} />
       <Part name={content2.name} number={content2.exercises} />
       <Part name={content3.name} number={content3.exercises} />
+    </div>
+  )
+}*/
+
+const Content = ({contentArray}) => {
+  console.log(contentArray)
+  return (
+    <div>
+      {contentArray.map((c)=><Part name={c.name} number={c.exercises}/>)}
     </div>
   )
 }
@@ -29,10 +39,12 @@ const Content = ({content1,content2,content3}) => {
 const Course = ({course})=>{
     console.log('Course receiving prop',course)
     //2.3 as well
+    //<Content content1={course.parts[0]} content2={course.parts[1]} content3={course.parts[2]}/> 
+
     return (
         <>
         <Header course_name={course.name}/>
-        <Content content1={course.parts[0]} content2={course.parts[1]} content3={course.parts[2]}/> 
+        <Content contentArray={course.parts}/> 
         <p>
             <b>Total of  {course.parts.reduce((sum,part)=>sum+part.exercises,0)} exercises</b>
         </p>
