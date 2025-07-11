@@ -37,6 +37,22 @@ const App = () => {
         id: 2
       }
     ]
+  },
+  {
+    id: 1,
+    name: 'Scalable systems',
+    parts: [
+      {
+        name: 'Container',
+        exercises: 2,
+        id: 1
+      },
+      {
+        name: 'Kubbe',
+        exercises: 77,
+        id: 2
+      }
+    ]
   }
   ]
 
