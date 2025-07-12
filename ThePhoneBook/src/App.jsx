@@ -51,7 +51,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
         looking for: <input value={searchName} onChange={handleSearchName}/>
+      </div>
       <h2>Add new</h2>
       <form onSubmit={handlePersons}>
         <div>
