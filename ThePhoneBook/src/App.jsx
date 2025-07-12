@@ -2,34 +2,42 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas',number: '040-1234567'}
   ]) 
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
   const handlePersons = (eventClick) => 
   {
     eventClick.preventDefault()
     console.log('click event',eventClick)
     const newPerson = {
-      name:newName
+      name:newName,
+      number:newNumber
     }
-    console.log(`persons includes ${newName}?`,persons.some((p)=>p.name === newName))
-    if (persons.some((p)=>p.name === newName))
+    console.log(`persons includes ${newName} or ${newNumber}?`,persons.some((p)=>p.name === newName)||persons.some((p)=>p.number === newNumber))
+    if (persons.some((p)=>p.name === newName)||persons.some((p)=>p.number === newNumber))
     {
       console.log('alerting user')
-      alert(`${newName} already exists!`)
+      alert(`${newName} or ${newNumber} already exists!`)
     }
     else
     {
       setPersons(persons.concat(newPerson)) //concat method implicitly creates a copy ;) 
       console.log('persons:',persons)
       setNewName('')
+      setNewNumber('')
     }
   }
 
   const handleNewName = (event) => {
     console.log(event.target.value)
     setNewName(event.target.value) //what user is actually typing
+  }
+
+  const handleNewNumber = (event) => {
+    console.log(event.target.value)
+    setNewNumber(event.target.value) //what user is actually typing
   }
 
   return (
@@ -40,11 +48,14 @@ const App = () => {
           name: <input value={newName} onChange={handleNewName}/>
         </div>
         <div>
+          number: <input value={newNumber} onChange={handleNewNumber}/>
+        </div>
+        <div>
           <button type="submit">add</button>
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map((p)=><p key={p.name}>{p.name}</p>)}
+      {persons.map((p)=><p key={p.name}>{p.name} {p.number}</p>)}
     </div>
   )
 }
