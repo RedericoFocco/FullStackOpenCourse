@@ -6,9 +6,16 @@ const App = () => {
   ]) 
   const [newName, setNewName] = useState('')
 
-  const handlePersons = () => 
+  const handlePersons = (eventClick) => 
   {
-
+    eventClick.preventDefault()
+    console.log('click event',eventClick)
+    const newPerson = {
+      name:newName
+    }
+    setPersons(persons.concat(newPerson)) //concat method implicitly creates a copy ;) 
+    console.log('persons:',persons)
+    setNewName('')
   }
 
   const handleNewName = (event) => {
@@ -19,7 +26,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <form>
+      <form onSubmit={handlePersons}>
         <div>
           name: <input value={newName} onChange={handleNewName}/>
         </div>
@@ -28,7 +35,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      ...
+      {persons.map((p)=><p key={p.name}>{p.name}</p>)}
     </div>
   )
 }
