@@ -13,9 +13,18 @@ const App = () => {
     const newPerson = {
       name:newName
     }
-    setPersons(persons.concat(newPerson)) //concat method implicitly creates a copy ;) 
-    console.log('persons:',persons)
-    setNewName('')
+    console.log(`persons includes ${newName}?`,persons.some((p)=>p.name === newName))
+    if (persons.some((p)=>p.name === newName))
+    {
+      console.log('alerting user')
+      alert(`${newName} already exists!`)
+    }
+    else
+    {
+      setPersons(persons.concat(newPerson)) //concat method implicitly creates a copy ;) 
+      console.log('persons:',persons)
+      setNewName('')
+    }
   }
 
   const handleNewName = (event) => {
