@@ -2,10 +2,13 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas',number: '040-1234567'}
+    { name: 'Arto Hellas',number: '040-1234567'},
+     { name: 'Feder',number: '042-1234567'},
+      { name: 'Marck',number: '044-1234567'}
   ]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [searchName, setSearchName] = useState('')
 
   const handlePersons = (eventClick) => 
   {
@@ -40,9 +43,16 @@ const App = () => {
     setNewNumber(event.target.value) //what user is actually typing
   }
 
+  const handleSearchName = (event) => {
+    console.log(event.target.value)
+    setSearchName(event.target.value) //what user is actually typing
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
+        looking for: <input value={searchName} onChange={handleSearchName}/>
+      <h2>Add new</h2>
       <form onSubmit={handlePersons}>
         <div>
           name: <input value={newName} onChange={handleNewName}/>
@@ -55,7 +65,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map((p)=><p key={p.name}>{p.name} {p.number}</p>)}
+      {persons.filter((p)=>p.name.toLowerCase().startsWith(searchName.toLowerCase())).map((p)=><p key={p.name}>{p.name} {p.number}</p>)}
     </div>
   )
 }
