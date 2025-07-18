@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
-
+import personsService from './services/persons'
 
 const Filter = ({searchName,onChangeFunc}) => {
   console.log('searchName',searchName)
@@ -40,11 +39,10 @@ const App = () => {
 
   useEffect(() => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
+    personsService.getAll()
+      .then(responseData => {
+        console.log('promise fulfilled:',responseData)
+        setPersons(responseData)
       })
   }, [])
   console.log('render', persons.length, 'persons')
@@ -88,11 +86,10 @@ const App = () => {
     }
     else
     {
-      axios
-      .post('http://localhost:3001/persons',newPerson)
-      .then(response => {
-        console.log('promise fulfilled:',response.data)
-        setPersons(persons.concat(response.data))
+      personsService.insertNew(newPerson)
+      .then(responseData => {
+        console.log('promise fulfilled:',responseData)
+        setPersons(persons.concat(responseData))
       })
       //setPersons(persons.concat(newPerson)) //concat method implicitly creates a copy ;) 
       console.log('persons:',persons)
