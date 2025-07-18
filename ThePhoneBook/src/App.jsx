@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+
 
 const Filter = ({searchName,onChangeFunc}) => {
   console.log('searchName',searchName)
@@ -30,14 +32,22 @@ const PersonForm = ({submit,name,onNameChange,number,onNumberChange}) => {
 const Persons = ({persons,searchName}) => persons.filter((p)=>p.name.toLowerCase().startsWith(searchName.toLowerCase())).map((p)=><p key={p.name}>{p.name} {p.number}</p>)
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas',number: '040-1234567'},
-     { name: 'Feder',number: '042-1234567'},
-      { name: 'Marck',number: '044-1234567'}
-  ]) 
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchName, setSearchName] = useState('')
+
+
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        setPersons(response.data)
+      })
+  }, [])
+  console.log('render', persons.length, 'persons')
 
   const handlePersons = (eventClick) => 
   {
