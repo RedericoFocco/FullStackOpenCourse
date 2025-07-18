@@ -49,7 +49,7 @@ const App = () => {
   }, [])
   console.log('render', persons.length, 'persons')
 
-  const handlePersons = (eventClick) => 
+  /*const handlePersons = (eventClick) => 
   {
     eventClick.preventDefault()
     console.log('click event',eventClick)
@@ -66,6 +66,35 @@ const App = () => {
     else
     {
       setPersons(persons.concat(newPerson)) //concat method implicitly creates a copy ;) 
+      console.log('persons:',persons)
+      setNewName('')
+      setNewNumber('')
+    }
+  }*/
+
+  const handlePersons = (eventClick) => 
+  {
+    eventClick.preventDefault()
+    console.log('click event',eventClick)
+    const newPerson = {
+      name:newName,
+      number:newNumber
+    }
+    console.log(`persons includes ${newName} or ${newNumber}?`,persons.some((p)=>p.name === newName)||persons.some((p)=>p.number === newNumber))
+    if (persons.some((p)=>p.name === newName)||persons.some((p)=>p.number === newNumber))
+    {
+      console.log('alerting user')
+      alert(`${newName} or ${newNumber} already exists!`)
+    }
+    else
+    {
+      axios
+      .post('http://localhost:3001/persons',newPerson)
+      .then(response => {
+        console.log('promise fulfilled:',response.data)
+        setPersons(persons.concat(response.data))
+      })
+      //setPersons(persons.concat(newPerson)) //concat method implicitly creates a copy ;) 
       console.log('persons:',persons)
       setNewName('')
       setNewNumber('')
