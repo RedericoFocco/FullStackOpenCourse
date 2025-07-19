@@ -119,7 +119,8 @@ const App = () => {
       if(window.confirm(`Do you want to modify ${personWsameName.name} number?`))
       {
         console.log("Confirmed new number")
-        const copyArr=persons.map(p=>p.id!==personWsameName.id?p:newPerson)
+        //const copyArr=persons.map(p=>p.id!==personWsameName.id?p:newPerson) keep this as a lesson. the Id is automatically
+        // set by the lovely json library on the "server" side. otherwise we should set the id here. better to map with response data
         console.log("copyArr",copyArr)
         personsService.updateRecord(personWsameName.id,newPerson)
         .then(()=>{
