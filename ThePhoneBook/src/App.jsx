@@ -119,10 +119,12 @@ const App = () => {
       if(window.confirm(`Do you want to modify ${personWsameName.name} number?`))
       {
         console.log("Confirmed new number")
-        /*personsService.deleteRecord(id)
+        const copyArr=persons.map(p=>p.id!==personWsameName.id?p:newPerson)
+        console.log("copyArr",copyArr)
+        personsService.updateRecord(personWsameName.id,newPerson)
         .then(()=>{
-          setPersons(changedArr)
-        })*/ //fai la put
+          setPersons(copyArr)
+        })
       }
       else
       {
@@ -134,13 +136,16 @@ const App = () => {
     {
       console.log('same number, different name')
       const personWsameNumber = persons.find(p=>p.number===newNumber)
-      if(window.confirm(`Do you want to modify owner of number ${personWsameName.number} ?`))
+      if(window.confirm(`Do you want to modify owner of number ${personWsameNumber.number} ?`))
       {
         console.log("Confirmed new owner")
-        /*personsService.deleteRecord(id)
+        const copyArr=persons.map(p=>p.id!==personWsameNumber.id?p:newPerson)
+        console.log("copyArr",copyArr)
+        console.log("personWsameNumber",personWsameNumber)
+        personsService.updateRecord(personWsameNumber.id,newPerson)
         .then(()=>{
-          setPersons(changedArr)
-        })*/ //fai la put
+          setPersons(copyArr)
+        })
       }
       else
       {
