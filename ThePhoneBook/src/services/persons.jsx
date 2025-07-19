@@ -11,4 +11,6 @@ const getAll = () => {
 
 const insertNew = (object) => axios.post(baseUrl,object).then(response=>(response.data))
 
-export default {getAll, insertNew}
+const deleteRecord = (id) => axios.delete(`${baseUrl}/${id}`)
+
+export default {getAll, insertNew, deleteRecord}

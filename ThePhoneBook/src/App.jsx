@@ -28,7 +28,13 @@ const PersonForm = ({submit,name,onNameChange,number,onNumberChange}) => {
   )
 }
 
-const Persons = ({persons,searchName}) => persons.filter((p)=>p.name.toLowerCase().startsWith(searchName.toLowerCase())).map((p)=><p key={p.name}>{p.name} {p.number}</p>)
+const Persons = ({persons,searchName,deletion}) => persons.filter((p)=>p.name.toLowerCase().startsWith(searchName.toLowerCase())).map((p)=>
+{
+  return (<p key={p.name}>{p.name} {p.number}
+    <button onClick={()=>deletion(p.id)}>delete</button>
+  </p>)
+}
+)
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -69,6 +75,20 @@ const App = () => {
       setNewNumber('')
     }
   }*/
+
+
+  const handleDeletion = (id) => 
+  {
+    console.log('passed id',id)
+    const personToBeEliminated = persons.find(p=>p.id===id)
+    console.log('personToBeEliminated',personToBeEliminated)
+    const changedArr=persons.filter(p=>p.id!==personToBeEliminated.id)
+    console.log('changedArr',changedArr)
+    personsService.deleteRecord(id)
+    .then(()=>{
+      setPersons(changedArr)
+    })
+  }
 
   const handlePersons = (eventClick) => 
   {
@@ -120,7 +140,7 @@ const App = () => {
       <h2>Add new</h2>
         <PersonForm submit={handlePersons} name={newName} onNameChange={handleNewName} number={newNumber} onNumberChange={handleNewNumber} />
       <h2>Numbers</h2>
-        <Persons persons={persons} searchName={searchName} />
+        <Persons persons={persons} searchName={searchName} deletion={handleDeletion} />
     </div>
   )
 }
