@@ -121,10 +121,9 @@ const App = () => {
         console.log("Confirmed new number")
         //const copyArr=persons.map(p=>p.id!==personWsameName.id?p:newPerson) keep this as a lesson. the Id is automatically
         // set by the lovely json library on the "server" side. otherwise we should set the id here. better to map with response data
-        console.log("copyArr",copyArr)
         personsService.updateRecord(personWsameName.id,newPerson)
-        .then(()=>{
-          setPersons(copyArr)
+        .then((respData)=>{
+          setPersons(persons.map(p=>p.id!==personWsameName.id?p:respData))
         })
       }
       else
@@ -139,13 +138,12 @@ const App = () => {
       const personWsameNumber = persons.find(p=>p.number===newNumber)
       if(window.confirm(`Do you want to modify owner of number ${personWsameNumber.number} ?`))
       {
-        console.log("Confirmed new owner")
-        const copyArr=persons.map(p=>p.id!==personWsameNumber.id?p:newPerson)
-        console.log("copyArr",copyArr)
-        console.log("personWsameNumber",personWsameNumber)
+        console.log("Confirmed new number")
+        //const copyArr=persons.map(p=>p.id!==personWsameName.id?p:newPerson) keep this as a lesson. the Id is automatically
+        // set by the lovely json library on the "server" side. otherwise we should set the id here. better to map with response data
         personsService.updateRecord(personWsameNumber.id,newPerson)
-        .then(()=>{
-          setPersons(copyArr)
+        .then((respData)=>{
+          setPersons(persons.map(p=>p.id!==personWsameNumber.id?p:respData))
         })
       }
       else
