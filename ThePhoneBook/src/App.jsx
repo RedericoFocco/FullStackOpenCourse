@@ -84,10 +84,18 @@ const App = () => {
     console.log('personToBeEliminated',personToBeEliminated)
     const changedArr=persons.filter(p=>p.id!==personToBeEliminated.id)
     console.log('changedArr',changedArr)
-    personsService.deleteRecord(id)
-    .then(()=>{
-      setPersons(changedArr)
-    })
+    if(window.confirm(`Are you really sure you want to eliminate ${personToBeEliminated.name}`))
+    {
+      console.log("Confirmed")
+      personsService.deleteRecord(id)
+      .then(()=>{
+        setPersons(changedArr)
+      })
+    }
+    else
+    {
+      console.log("Rejected")
+    }
   }
 
   const handlePersons = (eventClick) => 
