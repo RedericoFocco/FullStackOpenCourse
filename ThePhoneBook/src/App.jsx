@@ -106,11 +106,46 @@ const App = () => {
       name:newName,
       number:newNumber
     }
-    console.log(`persons includes ${newName} or ${newNumber}?`,persons.some((p)=>p.name === newName)||persons.some((p)=>p.number === newNumber))
-    if (persons.some((p)=>p.name === newName)||persons.some((p)=>p.number === newNumber))
+    console.log(`persons includes ${newName} and ${newNumber}?`,persons.some((p)=>p.name === newName)&&persons.some((p)=>p.number === newNumber))
+    if ((persons.some((p)=>p.name === newName))&&(persons.some((p)=>p.number === newNumber)))
     {
       console.log('alerting user')
-      alert(`${newName} or ${newNumber} already exists!`)
+      alert(`${newName} with number ${newNumber} already exists!`)
+    }
+    else if (persons.some((p)=>p.name === newName)&&!(persons.some((p)=>p.number === newNumber)))
+    {
+      console.log('same name, different number')
+      const personWsameName = persons.find(p=>p.name===newName)
+      if(window.confirm(`Do you want to modify ${personWsameName.name} number?`))
+      {
+        console.log("Confirmed new number")
+        /*personsService.deleteRecord(id)
+        .then(()=>{
+          setPersons(changedArr)
+        })*/ //fai la put
+      }
+      else
+      {
+        console.log("Rejected new number")
+      }
+     
+    }
+    else if (!persons.some((p)=>p.name === newName)&&(persons.some((p)=>p.number === newNumber)))
+    {
+      console.log('same number, different name')
+      const personWsameNumber = persons.find(p=>p.number===newNumber)
+      if(window.confirm(`Do you want to modify owner of number ${personWsameName.number} ?`))
+      {
+        console.log("Confirmed new owner")
+        /*personsService.deleteRecord(id)
+        .then(()=>{
+          setPersons(changedArr)
+        })*/ //fai la put
+      }
+      else
+      {
+        console.log("Rejected new owner")
+      }
     }
     else
     {
