@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import personsService from './services/persons'
 
+const messageShownSec=3000 
+
 const Filter = ({searchName,onChangeFunc}) => {
   console.log('searchName',searchName)
   console.log('onChangeFunc',onChangeFunc)
@@ -36,11 +38,31 @@ const Persons = ({persons,searchName,deletion}) => persons.filter((p)=>p.name.to
 }
 )
 
+const Notification = ({ message }) => {
+
+  const notificationStyle = {
+    color:'green',
+    fontStyle: 'italic',
+    border: '2px solid gray'
+  }
+
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div style={notificationStyle}>
+      {message}
+    </div>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchName, setSearchName] = useState('')
+  const [notifyMessage, setNotificationMessage] = useState('')
 
 
   useEffect(() => {
@@ -124,6 +146,8 @@ const App = () => {
         personsService.updateRecord(personWsameName.id,newPerson)
         .then((respData)=>{
           setPersons(persons.map(p=>p.id!==personWsameName.id?p:respData))
+          setNotificationMessage('Number modified')
+          setTimeout(()=>{setNotificationMessage(null)},messageShownSec)
         })
       }
       else
@@ -138,12 +162,14 @@ const App = () => {
       const personWsameNumber = persons.find(p=>p.number===newNumber)
       if(window.confirm(`Do you want to modify owner of number ${personWsameNumber.number} ?`))
       {
-        console.log("Confirmed new number")
+        console.log("Confirmed new name")
         //const copyArr=persons.map(p=>p.id!==personWsameName.id?p:newPerson) keep this as a lesson. the Id is automatically
         // set by the lovely json library on the "server" side. otherwise we should set the id here. better to map with response data
         personsService.updateRecord(personWsameNumber.id,newPerson)
         .then((respData)=>{
           setPersons(persons.map(p=>p.id!==personWsameNumber.id?p:respData))
+          setNotificationMessage('Name modified')
+          setTimeout(()=>{setNotificationMessage(null)},messageShownSec)
         })
       }
       else
@@ -157,6 +183,8 @@ const App = () => {
       .then(responseData => {
         console.log('promise fulfilled:',responseData)
         setPersons(persons.concat(responseData))
+        setNotificationMessage('New user added')
+        setTimeout(()=>{setNotificationMessage(null)},messageShownSec)
       })
       //setPersons(persons.concat(newPerson)) //concat method implicitly creates a copy ;) 
       console.log('persons:',persons)
@@ -180,13 +208,18 @@ const App = () => {
     setSearchName(event.target.value) //what user is actually typing
   }
 
+  const mainTitleStyle = {
+    color:'red'
+  }
+
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h2 style={mainTitleStyle}>Phonebook</h2>
         <Filter searchName={searchName} onChangeFunc={handleSearchName} />
       <h2>Add new</h2>
         <PersonForm submit={handlePersons} name={newName} onNameChange={handleNewName} number={newNumber} onNumberChange={handleNewNumber} />
       <h2>Numbers</h2>
+        <Notification message={notifyMessage} />
         <Persons persons={persons} searchName={searchName} deletion={handleDeletion} />
     </div>
   )
