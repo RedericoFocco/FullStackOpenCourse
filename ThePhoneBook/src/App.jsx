@@ -42,8 +42,7 @@ const Notification = ({ message }) => {
 
   const notificationStyle = {
     color:'green',
-    fontStyle: 'italic',
-    border: '2px solid gray'
+    fontStyle: 'italic'
   }
 
   if (message === null) {
