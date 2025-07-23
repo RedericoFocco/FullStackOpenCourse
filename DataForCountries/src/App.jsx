@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import personsService from './services/persons'
+import countriesService from './services/countries'
 
 const messageShownSec=3000 
 
@@ -8,20 +8,17 @@ const Filter = ({searchName,onChangeFunc}) => {
   console.log('onChangeFunc',onChangeFunc)
   return (
   <>
-    looking for: <input value={searchName} onChange={onChangeFunc}/>
+    find countries: <input value={searchName} onChange={onChangeFunc}/>
   </>
   )
 }
 
-const PersonForm = ({submit,name,onNameChange,number,onNumberChange}) => {
+const CountriesForm = ({submit,name,onNameChange,number,onNumberChange}) => {
   console.log('submit action', submit)
   return (
     <form onSubmit={submit}>
       <div>
         name: <input value={name} onChange={onNameChange}/>
-      </div>
-      <div>
-        number: <input value={number} onChange={onNumberChange}/>
       </div>
       <div>
         <button type="submit">add</button>
@@ -30,15 +27,26 @@ const PersonForm = ({submit,name,onNameChange,number,onNumberChange}) => {
   )
 }
 
-const Persons = ({persons,searchName,deletion}) => persons.filter((p)=>p.name.toLowerCase().startsWith(searchName.toLowerCase())).map((p)=>
-{
-  return (<p key={p.name}>{p.name} {p.number}
-    <button onClick={()=>deletion(p.id)}>delete</button>
-  </p>)
-}
-)
+const Countries = ({ countries, searchName }) => {
+  const countriesFiltered = countries.filter((p) => p.name.common.toLowerCase().startsWith(searchName.toLowerCase()))
 
-const Notification = ({message,deletionFlag}) => {
+  console.log('countriesFiltered.length', countriesFiltered.length)
+
+  if (countriesFiltered.length > 10) {
+    return (<p>Too many matches, specify another filter</p>)
+  }
+  else
+    console.log('countries filtered < 10', countriesFiltered)
+  return (countriesFiltered.map(p => {
+    return (<p key={p.name.common}>{p.name.common}
+      {/*<button onClick={()=>deletion(p.id)}>delete</button>*/}
+    </p>)
+  }
+  )
+  )
+}
+
+/*const Notification = ({message,deletionFlag}) => {
 
   const notificationStyle = {
     color:deletionFlag ? 'red' : 'green' ,
@@ -57,26 +65,26 @@ const Notification = ({message,deletionFlag}) => {
       {message}
     </div>
   )
-}
+}*/
 
 const App = () => {
-  const [persons, setPersons] = useState([])
-  const [newName, setNewName] = useState('')
-  const [newNumber, setNewNumber] = useState('')
+  const [countries, setCountries] = useState([])
+  /*const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')*/
   const [searchName, setSearchName] = useState('')
-  const [notifyMessage, setNotificationMessage] = useState('')
-  const [deletionFlag, setDeletionFlag] = useState(false)
+  /*const [notifyMessage, setNotificationMessage] = useState('')
+  const [deletionFlag, setDeletionFlag] = useState(false)*/
 
 
   useEffect(() => {
     console.log('effect')
-    personsService.getAll()
+    countriesService.getAll()
       .then(responseData => {
         console.log('promise fulfilled:',responseData)
-        setPersons(responseData)
+        setCountries(responseData)
       })
   }, [])
-  console.log('render', persons.length, 'persons')
+  console.log('render', countries.length, 'countries')
 
   /*const handlePersons = (eventClick) => 
   {
@@ -102,7 +110,7 @@ const App = () => {
   }*/
 
 
-  const handleDeletion = (id) => 
+  /*const handleDeletion = (id) => 
   {
     console.log('passed id',id)
     const personToBeEliminated = persons.find(p=>p.id===id)
@@ -204,7 +212,7 @@ const App = () => {
       setNewName('')
       setNewNumber('')
     }
-  }
+  }*/
 
   const handleNewName = (event) => {
     console.log(event.target.value)
@@ -221,19 +229,11 @@ const App = () => {
     setSearchName(event.target.value) //what user is actually typing
   }
 
-  const mainTitleStyle = {
-    color:'red'
-  }
-
   return (
     <div>
-      <h2 style={mainTitleStyle}>Phonebook</h2>
         <Filter searchName={searchName} onChangeFunc={handleSearchName} />
-      <h2>Add new</h2>
-        <PersonForm submit={handlePersons} name={newName} onNameChange={handleNewName} number={newNumber} onNumberChange={handleNewNumber} />
-      <h2>Numbers</h2>
-        <Notification message={notifyMessage} deletionFlag={deletionFlag} />
-        <Persons persons={persons} searchName={searchName} deletion={handleDeletion} />
+      <h2>Countries</h2>
+        <Countries countries={countries} searchName={searchName} />
     </div>
   )
 }

@@ -1,11 +1,11 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:3001/persons'
+const baseUrl = 'https://studies.cs.helsinki.fi/restcountries/api'
 
 //const getAll = () => axios.get(baseUrl).then(response=>(response.data))
 
 const getAll = () => {
-  const request = axios.get(baseUrl)
+  const request = axios.get(`${baseUrl}/all`)
   return request.then(response => response.data)
 }
 
