@@ -38,16 +38,19 @@ const Persons = ({persons,searchName,deletion}) => persons.filter((p)=>p.name.to
 }
 )
 
-const Notification = ({ message }) => {
+const Notification = ({message,deletionFlag}) => {
 
   const notificationStyle = {
-    color:'green',
+    color:deletionFlag ? 'red' : 'green' ,
     fontStyle: 'italic'
   }
+
+  console.log('notificationStyle',notificationStyle)
 
   if (message === null) {
     return null
   }
+
 
   return (
     <div style={notificationStyle}>
@@ -62,6 +65,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchName, setSearchName] = useState('')
   const [notifyMessage, setNotificationMessage] = useState('')
+  const [deletionFlag, setDeletionFlag] = useState(false)
 
 
   useEffect(() => {
@@ -112,6 +116,13 @@ const App = () => {
       .then(()=>{
         setPersons(changedArr)
       })
+      .catch(()=>{
+        console.log('fail')
+        setDeletionFlag(true)
+        setNotificationMessage(`Person ${personToBeEliminated.name} is already eliminated!`)
+        setTimeout(()=>{setNotificationMessage(null)},messageShownSec)
+        setPersons(changedArr)
+      })
     }
     else
     {
@@ -145,6 +156,7 @@ const App = () => {
         personsService.updateRecord(personWsameName.id,newPerson)
         .then((respData)=>{
           setPersons(persons.map(p=>p.id!==personWsameName.id?p:respData))
+          setDeletionFlag(false)
           setNotificationMessage('Number modified')
           setTimeout(()=>{setNotificationMessage(null)},messageShownSec)
         })
@@ -167,6 +179,7 @@ const App = () => {
         personsService.updateRecord(personWsameNumber.id,newPerson)
         .then((respData)=>{
           setPersons(persons.map(p=>p.id!==personWsameNumber.id?p:respData))
+          setDeletionFlag(false)
           setNotificationMessage('Name modified')
           setTimeout(()=>{setNotificationMessage(null)},messageShownSec)
         })
@@ -182,6 +195,7 @@ const App = () => {
       .then(responseData => {
         console.log('promise fulfilled:',responseData)
         setPersons(persons.concat(responseData))
+        setDeletionFlag(false)
         setNotificationMessage('New user added')
         setTimeout(()=>{setNotificationMessage(null)},messageShownSec)
       })
@@ -218,7 +232,7 @@ const App = () => {
       <h2>Add new</h2>
         <PersonForm submit={handlePersons} name={newName} onNameChange={handleNewName} number={newNumber} onNumberChange={handleNewNumber} />
       <h2>Numbers</h2>
-        <Notification message={notifyMessage} />
+        <Notification message={notifyMessage} deletionFlag={deletionFlag} />
         <Persons persons={persons} searchName={searchName} deletion={handleDeletion} />
     </div>
   )
