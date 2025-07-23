@@ -35,15 +35,27 @@ const Countries = ({ countries, searchName }) => {
   if (countriesFiltered.length > 10) {
     return (<p>Too many matches, specify another filter</p>)
   }
-  else
+  else if (countriesFiltered.length>1 && countriesFiltered.length<=10)
+  {
     console.log('countries filtered < 10', countriesFiltered)
-  return (countriesFiltered.map(p => {
-    return (<p key={p.name.common}>{p.name.common}
-      {/*<button onClick={()=>deletion(p.id)}>delete</button>*/}
-    </p>)
+    return (countriesFiltered.map(p => {
+      return (<p key={p.name.common}>{p.name.common}
+        {/*<button onClick={()=>deletion(p.id)}>delete</button>*/}
+      </p>)
+      }
+      )
+    )
   }
-  )
-  )
+  else if (countriesFiltered.length===1)
+  {
+    console.log('countries filtered = 1', countriesFiltered)
+    return (<p>{countriesFiltered[0].name.common}</p>) //not so proud of this
+  }
+  else
+  {
+    return(<p></p>)
+  }
+
 }
 
 /*const Notification = ({message,deletionFlag}) => {
