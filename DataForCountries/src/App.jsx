@@ -49,7 +49,22 @@ const Countries = ({ countries, searchName }) => {
   else if (countriesFiltered.length===1)
   {
     console.log('countries filtered = 1', countriesFiltered)
-    return (<p>{countriesFiltered[0].name.common}</p>) //not so proud of this
+    return (countriesFiltered.map(p=> {
+    return (
+    <>
+    <h1>{p.name.common}</h1>
+    <p>Capital {p.capital[0]}</p>
+    <p>Area {p.area}</p>
+    <h2>Languagaes</h2>
+    <ul>
+    {Object.values(p.languages).map((language, index) => (
+    <li key={index}>{language}</li>))}
+    </ul>
+    <img src={p.flags.png}></img>
+    </>
+  )
+  }
+  )) //not so proud of this
   }
   else
   {
@@ -244,7 +259,6 @@ const App = () => {
   return (
     <div>
         <Filter searchName={searchName} onChangeFunc={handleSearchName} />
-      <h2>Countries</h2>
         <Countries countries={countries} searchName={searchName} />
     </div>
   )
