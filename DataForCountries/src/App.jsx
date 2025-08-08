@@ -27,7 +27,7 @@ const CountriesForm = ({submit,name,onNameChange,number,onNumberChange}) => {
   )
 }
 
-const Countries = ({ countries, searchName }) => {
+const Countries = ({ countries, searchName, countrySelection }) => {
   const countriesFiltered = countries.filter((p) => p.name.common.toLowerCase().startsWith(searchName.toLowerCase()))
 
   console.log('countriesFiltered.length', countriesFiltered.length)
@@ -35,18 +35,39 @@ const Countries = ({ countries, searchName }) => {
   if (countriesFiltered.length > 10) {
     return (<p>Too many matches, specify another filter</p>)
   }
-  else if (countriesFiltered.length>1 && countriesFiltered.length<=10)
+  else // if (countriesFiltered.length>1 && countriesFiltered.length<=10)
   {
     console.log('countries filtered < 10', countriesFiltered)
     return (countriesFiltered.map(p => {
       return (<p key={p.name.common}>{p.name.common}
-        {/*<button onClick={()=>deletion(p.id)}>delete</button>*/}
+        {<button onClick={()=>countrySelection(p.name.common)}>Show</button>}
       </p>)
       }
       )
     )
   }
-  else if (countriesFiltered.length===1)
+}
+
+  const CountryToShow = ({countryToShow,backFunc}) => {
+    if (countryToShow!==null)
+    {
+      return (
+    <>
+    <h1>{countryToShow.name.common}</h1>
+    <p>Capital {countryToShow.capital[0]}</p>
+    <p>Area {countryToShow.area}</p>
+    <h2>Languagaes</h2>
+    <ul>
+    {Object.values(countryToShow.languages).map((language, index) => (
+    <li key={index}>{language}</li>))}
+    </ul>
+    <img src={countryToShow.flags.png}></img>
+    {<button onClick={()=>backFunc()}>Back</button>}
+    </>
+  ) 
+    }
+  }
+  /*else if (countriesFiltered.length===1)
   {
     console.log('countries filtered = 1', countriesFiltered)
     return (countriesFiltered.map(p=> {
@@ -69,9 +90,7 @@ const Countries = ({ countries, searchName }) => {
   else
   {
     return(<p></p>)
-  }
-
-}
+  }*/
 
 /*const Notification = ({message,deletionFlag}) => {
 
@@ -99,18 +118,23 @@ const App = () => {
   /*const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')*/
   const [searchName, setSearchName] = useState('')
+  const [selectedCountry, setSelectedCountry] = useState(null)
   /*const [notifyMessage, setNotificationMessage] = useState('')
   const [deletionFlag, setDeletionFlag] = useState(false)*/
 
 
   useEffect(() => {
+    console.log("selectedCountry state",selectedCountry)
+    if(selectedCountry===null)
+    {
     console.log('effect')
     countriesService.getAll()
       .then(responseData => {
         console.log('promise fulfilled:',responseData)
         setCountries(responseData)
       })
-  }, [])
+    } 
+  }, [selectedCountry])
   console.log('render', countries.length, 'countries')
 
   /*const handlePersons = (eventClick) => 
@@ -136,15 +160,17 @@ const App = () => {
     }
   }*/
 
+  const backPage= () => {setSelectedCountry(null)}
 
-  /*const handleDeletion = (id) => 
+  const handleCountry = (id) => 
   {
     console.log('passed id',id)
-    const personToBeEliminated = persons.find(p=>p.id===id)
-    console.log('personToBeEliminated',personToBeEliminated)
-    const changedArr=persons.filter(p=>p.id!==personToBeEliminated.id)
-    console.log('changedArr',changedArr)
-    if(window.confirm(`Are you really sure you want to eliminate ${personToBeEliminated.name}`))
+    const [countryToShow] = countries.filter(p=>p.name.common===id)
+    console.log('countryToShow:',countryToShow)
+    setSelectedCountry(countryToShow)
+    setCountries([])
+  }
+    /*if(window.confirm(`Are you really sure you want to eliminate ${personToBeEliminated.name}`))
     {
       console.log("Confirmed")
       personsService.deleteRecord(id)
@@ -162,9 +188,8 @@ const App = () => {
     else
     {
       console.log("Rejected")
-    }
-  }
-
+    }*/
+  /*
   const handlePersons = (eventClick) => 
   {
     eventClick.preventDefault()
@@ -259,7 +284,8 @@ const App = () => {
   return (
     <div>
         <Filter searchName={searchName} onChangeFunc={handleSearchName} />
-        <Countries countries={countries} searchName={searchName} />
+        <Countries countries={countries} searchName={searchName} countrySelection={handleCountry}/>
+        <CountryToShow countryToShow={selectedCountry} backFunc={backPage}/>
     </div>
   )
 }
