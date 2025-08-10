@@ -32,6 +32,9 @@ app.get('/api/personas',(request, response) => {
     response.json(personas)
 })
 
+app.get('/info',(request, response) => {
+    response.send('<h1>TestFE</h1>')
+})
 
 const PORT = 3001
 app.listen(PORT, () => {
