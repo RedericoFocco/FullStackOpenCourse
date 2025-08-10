@@ -8,7 +8,7 @@ app.use(express.json())
 personas=[
     { 
       "id": "1",
-      "name": "Arto Hellas", 
+      "name": "Arto Hellass", 
       "number": "040-123456"
     },
     { 
