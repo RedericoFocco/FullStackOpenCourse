@@ -3,10 +3,25 @@ console.log("hello w")
 const express = require('express')
 const morgan = require ('morgan')
 
+//morgan.token('body',function(req){return JSON.stringify(req.body)})
+
 const app = express()
 
 app.use(express.json())
-app.use(morgan('tiny'))
+
+app.use(morgan(function (tokens, req, res) {
+  return [
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    JSON.stringify(req.body), //BODY of REQ!
+    //tokens.body(req), '-',
+    tokens['response-time'](req, res), 'ms'
+  ].join(' ')
+})
+)
+
+//app.use(morgan('tiny'))
 
 personas=[
     { 
