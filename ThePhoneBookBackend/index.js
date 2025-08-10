@@ -70,7 +70,9 @@ app.delete('/api/personas/:id',(request, response) => {
 
 app.post('/api/personas',(request,response) => {
 
-    if (request.body.number===null || request.body.name===null)
+    console.log("requestbody name",request.body.name)
+    console.log("requestbody number",request.body.number)
+    if (!request.body.number || !request.body.name)
     {
         response.statusMessage="please fill number or name"
         response.status(500).json({"error":"name or number missing"})
