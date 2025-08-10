@@ -48,10 +48,28 @@ app.get('/api/personas/:id',(request, response) => {
     }
 })
 
+app.delete('/api/personas/:id',(request, response) => {
+    const id=request.params.id
+    console.log("[DELETION] id",id)
+    const [selectedInfo] = personas.filter(p=>p.id===id)
+    console.log(selectedInfo)
+    if(selectedInfo)
+    {
+        response.statusMessage=`Persona with id ${id} succesfully deleted`
+        response.status(204).end()
+    }
+    else
+    {
+        response.statusMessage=`No persona with id ${id} found`
+        response.status(404).end() //end important
+    }
+})
 
 app.get('/info',(request, response) => {
     response.send(`Phonebook has info for ${personas.length} people.<br> ${new Date().toString()}`)
 })
+
+
 
 const PORT = 3001
 app.listen(PORT, () => {

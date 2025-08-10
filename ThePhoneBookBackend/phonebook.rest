@@ -1,7 +1,13 @@
 GET http://localhost:3001/api/personas
 
-#### Good Req
+#### GET Good Req
 GET http://localhost:3001/api/personas/4
 
-#### Bad Req
+#### GET Bad Req
 GET http://localhost:3001/api/personas/5
+
+#### Delete Good Req
+DELETE http://localhost:3001/api/personas/4
+
+#### Delete Bad Req
+DELETE http://localhost:3001/api/personas/5
