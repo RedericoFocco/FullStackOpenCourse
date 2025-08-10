@@ -11,3 +11,12 @@ DELETE http://localhost:3001/api/personas/4
 
 #### Delete Bad Req
 DELETE http://localhost:3001/api/personas/5
+
+#### Delete Bad Req
+POST http://localhost:3001/api/personas
+Content-Type: application/json; charset=utf-8
+
+{
+    "name":"fero",
+    "number":"123"
+}

@@ -52,10 +52,13 @@ app.delete('/api/personas/:id',(request, response) => {
     const id=request.params.id
     console.log("[DELETION] id",id)
     const [selectedInfo] = personas.filter(p=>p.id===id)
+    const otherPersonas = personas.filter(p=>p.id !== id)
     console.log(selectedInfo)
     if(selectedInfo)
     {
         response.statusMessage=`Persona with id ${id} succesfully deleted`
+        console.log('otherPersonas',otherPersonas)
+        //response.status(200).json(otherPersonas)
         response.status(204).end()
     }
     else
@@ -63,6 +66,27 @@ app.delete('/api/personas/:id',(request, response) => {
         response.statusMessage=`No persona with id ${id} found`
         response.status(404).end() //end important
     }
+})
+
+app.post('/api/personas',(request,response) => {
+
+    if (request.body.number===null || request.body.name===null)
+    {
+        response.statusMessage="please fill number or name"
+        response.status(500).json({"error":"name or number missing"})
+    }
+    else
+    {
+        const reqBody = {
+        id:Math.round(Math.random()*10000),
+        name: request.body.name,
+        number: request.body.number 
+        }
+
+        personas=personas.concat(reqBody)
+        response.json(reqBody)
+    }
+
 })
 
 app.get('/info',(request, response) => {
