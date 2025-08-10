@@ -35,7 +35,7 @@ const Countries = ({ countries, searchName, countrySelection }) => {
   if (countriesFiltered.length > 10) {
     return (<p>Too many matches, specify another filter</p>)
   }
-  else // if (countriesFiltered.length>1 && countriesFiltered.length<=10)
+  else if (countriesFiltered.length>1 && countriesFiltered.length<=10)
   {
     console.log('countries filtered < 10', countriesFiltered)
     return (countriesFiltered.map(p => {
@@ -46,28 +46,7 @@ const Countries = ({ countries, searchName, countrySelection }) => {
       )
     )
   }
-}
-
-  const CountryToShow = ({countryToShow,backFunc}) => {
-    if (countryToShow!==null)
-    {
-      return (
-    <>
-    <h1>{countryToShow.name.common}</h1>
-    <p>Capital {countryToShow.capital[0]}</p>
-    <p>Area {countryToShow.area}</p>
-    <h2>Languagaes</h2>
-    <ul>
-    {Object.values(countryToShow.languages).map((language, index) => (
-    <li key={index}>{language}</li>))}
-    </ul>
-    <img src={countryToShow.flags.png}></img>
-    {<button onClick={()=>backFunc()}>Back</button>}
-    </>
-  ) 
-    }
-  }
-  /*else if (countriesFiltered.length===1)
+  else if (countriesFiltered.length===1)
   {
     console.log('countries filtered = 1', countriesFiltered)
     return (countriesFiltered.map(p=> {
@@ -90,7 +69,29 @@ const Countries = ({ countries, searchName, countrySelection }) => {
   else
   {
     return(<p></p>)
-  }*/
+  }
+}
+
+  const CountryToShow = ({countryToShow,backFunc}) => {
+    if (countryToShow!==null)
+    {
+      return (
+    <>
+    <h1>{countryToShow.name.common}</h1>
+    <p>Capital {countryToShow.capital[0]}</p>
+    <p>Area {countryToShow.area}</p>
+    <h2>Languagaes</h2>
+    <ul>
+    {Object.values(countryToShow.languages).map((language, index) => (
+    <li key={index}>{language}</li>))}
+    </ul>
+    <img src={countryToShow.flags.png}></img>
+    {<button onClick={()=>backFunc()}>Back</button>}
+    </>
+  ) 
+    }
+  }
+  
 
 /*const Notification = ({message,deletionFlag}) => {
 
@@ -133,7 +134,11 @@ const App = () => {
         console.log('promise fulfilled:',responseData)
         setCountries(responseData)
       })
-    } 
+    }
+    else
+      {
+        console.log('in the country')
+      } 
   }, [selectedCountry])
   console.log('render', countries.length, 'countries')
 
