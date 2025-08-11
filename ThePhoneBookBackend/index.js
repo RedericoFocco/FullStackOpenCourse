@@ -21,7 +21,7 @@ app.use(morgan(function (tokens, req, res) {
 })
 )
 
-//app.use(morgan('tiny'))
+app.use(express.static('dist')) //to show index.html static content
 
 personas=[
     { 
@@ -115,7 +115,7 @@ app.get('/info',(request, response) => {
 
 
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
