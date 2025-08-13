@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 const Person = require('./models/persons')
 const persons = require('./models/persons')
 
+
 const app = express()
 
 app.use(express.json())
@@ -102,7 +103,30 @@ app.get('/api/personas/:id',(request, response) => {
     }
 })*/
 
-app.delete('/api/personas/:id',(request, response) => {
+
+app.put('/api/personas/:id',(request,response,next)=> {
+  const id = request.params.id
+  const {_name,_number}=request.body
+  console.log('[PUT] received body',request.body)
+  console.log('[PUT] requested id',id)
+  Person.findByIdAndUpdate(id).then(
+    p=>{
+
+      if(!p){return response.status(404).end()}
+ 
+      p.name=_name
+      p.number=_number
+
+      return p.save().then(
+        pp=>{
+          response.json(pp)
+        }
+      ).catch(error=>next(error))
+    }
+  ).catch(error=>next(error))
+})
+
+app.delete('/api/personas/:id',(request, response,next) => {
     const id=request.params.id
     console.log("[DELETION] id",id)
     Person.findByIdAndDelete(id).then(p=>
@@ -110,10 +134,7 @@ app.delete('/api/personas/:id',(request, response) => {
           console.log('deleted id')
           response.status(204).end()
       }
-    ).catch(error=>{
-      console.log('########### ERROR DELETION',error)
-      response.status(404).end()
-    })
+    ).catch(error=>next(error))
 })
 
 app.post('/api/personas',(request,response) => {
@@ -171,7 +192,17 @@ app.get('/info',(request, response) => {
 //Note that the error-handling middleware has to be the last loaded middleware, 
 // also all the routes should be registered before the error-handler!
 
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
 
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } 
+
+  next(error)
+}
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
