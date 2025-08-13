@@ -1,9 +1,10 @@
 console.log("hello w")
-
+require('dotenv').config()
 const express = require('express')
 const morgan = require ('morgan')
-
+const mongoose = require('mongoose')
 //morgan.token('body',function(req){return JSON.stringify(req.body)})
+const Person = require('./models/persons')
 
 const app = express()
 
