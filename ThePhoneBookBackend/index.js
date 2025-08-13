@@ -55,15 +55,14 @@ app.get('/api/personas',(request, response) => {
     })
 })
 
-app.get('/api/personas/:id',(request, response) => {
+app.get('/api/personas/:id',(request, response,next) => {
   const id=request.params.id
   Person.findById(id).then(
-    p=>{response.json(p)}
+    p=>{
+      if(!p){return response.status(404).end()}
+      response.json(p)}
   )
-  .catch(error=>{
-    response.statusMessage=`No persona with id ${id} found. ${error}`
-    response.status(404).end()
-  })
+  .catch(error=>next(error))
 })
 
 
@@ -175,8 +174,13 @@ app.post('/api/personas',(request,response) => {
 
 })*/
 
-app.get('/info',(request, response) => {
-    response.send(`Phonebook has info for ${personas.length} people.<br> ${new Date().toString()}`)
+app.get('/info',(request, response,next) => {
+    Person.countDocuments().then(p=>
+      {
+        console.log('count documents:',p)
+        response.send(`Phonebook has info for ${p} people.<br> ${new Date().toString()}`)
+      }
+    ).catch(error=>next(error))
 })
 
 //Note that the error-handling middleware has to be the last loaded middleware, 

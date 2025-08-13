@@ -1,6 +1,9 @@
 GET http://localhost:3001/api/personas
 
 #### GET Good Req
+GET http://localhost:3001/api/personas/689ca134516cc14c30817f27
+
+#### GET Bad Req not found
 GET http://localhost:3001/api/personas/689c7216174c9f265fb57edb
 
 #### GET Bad Req
@@ -46,3 +49,7 @@ Content-Type: application/json; charset=utf-8
 {
 
 }
+
+#### Info
+GET http://localhost:3001/info
+
