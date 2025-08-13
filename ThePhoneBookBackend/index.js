@@ -106,24 +106,14 @@ app.get('/api/personas/:id',(request, response) => {
 
 app.put('/api/personas/:id',(request,response,next)=> {
   const id = request.params.id
-  const {_name,_number}=request.body
   console.log('[PUT] received body',request.body)
   console.log('[PUT] requested id',id)
-  Person.findByIdAndUpdate(id).then(
+  Person.findByIdAndUpdate(id,request.body,{ new: true, runValidators: true }).then(
     p=>{
-
+      console.log('p inside then',p)
       if(!p){return response.status(404).end()}
- 
-      p.name=_name
-      p.number=_number
-
-      return p.save().then(
-        pp=>{
-          response.json(pp)
-        }
-      ).catch(error=>next(error))
-    }
-  ).catch(error=>next(error))
+      response.json(p)
+    }).catch(error=>next(error))
 })
 
 app.delete('/api/personas/:id',(request, response,next) => {
