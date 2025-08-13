@@ -55,9 +55,14 @@ app.get('/api/personas',(request, response) => {
 })
 
 app.get('/api/personas/:id',(request, response) => {
-  Person.findById(request.params.id).then(
+  const id=request.params.id
+  Person.findById(id).then(
     p=>{response.json(p)}
   )
+  .catch(error=>{
+    response.statusMessage=`No persona with id ${id} found. ${error}`
+    response.status(404).end()
+  })
 })
 
 
@@ -77,7 +82,7 @@ app.get('/api/personas/:id',(request, response) => {
     }
 })*/
  
-app.delete('/api/personas/:id',(request, response) => {
+/*app.delete('/api/personas/:id',(request, response) => {
     const id=request.params.id
     console.log("[DELETION] id",id)
     const [selectedInfo] = personas.filter(p=>p.id===id)
@@ -95,8 +100,21 @@ app.delete('/api/personas/:id',(request, response) => {
         response.statusMessage=`No persona with id ${id} found`
         response.status(404).end() //end important
     }
-})
+})*/
 
+app.delete('/api/personas/:id',(request, response) => {
+    const id=request.params.id
+    console.log("[DELETION] id",id)
+    Person.findByIdAndDelete(id).then(p=>
+      {
+          console.log('deleted id')
+          response.status(204).end()
+      }
+    ).catch(error=>{
+      console.log('########### ERROR DELETION',error)
+      response.status(404).end()
+    })
+})
 
 app.post('/api/personas',(request,response) => {
 
@@ -150,9 +168,13 @@ app.get('/info',(request, response) => {
     response.send(`Phonebook has info for ${personas.length} people.<br> ${new Date().toString()}`)
 })
 
+//Note that the error-handling middleware has to be the last loaded middleware, 
+// also all the routes should be registered before the error-handler!
+
 
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
+

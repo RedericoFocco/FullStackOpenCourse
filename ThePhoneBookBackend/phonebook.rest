@@ -1,16 +1,16 @@
 GET http://localhost:3001/api/personas
 
 #### GET Good Req
-GET http://localhost:3001/api/personas/4
+GET http://localhost:3001/api/personas/689c7216174c9f265fb57edb
 
 #### GET Bad Req
 GET http://localhost:3001/api/personas/5
 
 #### Delete Good Req
-DELETE http://localhost:3001/api/personas/4
+DELETE http://localhost:3001/api/personas/689c7216174c9f265fb57edb
 
 #### Delete Bad Req
-DELETE http://localhost:3001/api/personas/5
+DELETE http://localhost:3001/api/personas/6
 
 #### Post Good Req
 POST http://localhost:3001/api/personas
