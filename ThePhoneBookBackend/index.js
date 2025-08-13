@@ -1,10 +1,11 @@
 console.log("hello w")
-require('dotenv').config()
+require('dotenv').config() // need to be imported before calling modules, models ecc
 const express = require('express')
 const morgan = require ('morgan')
 const mongoose = require('mongoose')
 //morgan.token('body',function(req){return JSON.stringify(req.body)})
 const Person = require('./models/persons')
+const persons = require('./models/persons')
 
 const app = express()
 
@@ -48,7 +49,9 @@ personas=[
 ]
 
 app.get('/api/personas',(request, response) => {
-    response.json(personas)
+    Person.find({}).then(p=>{
+      response.json(p)
+    })
 })
 
 app.get('/api/personas/:id',(request, response) => {
