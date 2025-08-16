@@ -1,12 +1,9 @@
-console.log("hello w")
+console.log('hello w')
 require('dotenv').config() // need to be imported before calling modules, models ecc
 const express = require('express')
 const morgan = require ('morgan')
-const mongoose = require('mongoose')
 //morgan.token('body',function(req){return JSON.stringify(req.body)})
 const Person = require('./models/persons')
-const persons = require('./models/persons')
-
 
 const app = express()
 
@@ -50,19 +47,19 @@ app.use(express.static('dist')) //to show index.html static content
 ]*/
 
 app.get('/api/personas',(request, response) => {
-    Person.find({}).then(p=>{
-      response.json(p)
-    })
+  Person.find({}).then(p => {
+    response.json(p)
+  })
 })
 
 app.get('/api/personas/:id',(request, response,next) => {
   const id=request.params.id
   Person.findById(id).then(
-    p=>{
+    p => {
       if(!p){return response.status(404).end()}
       response.json(p)}
   )
-  .catch(error=>next(error))
+    .catch(error => next(error))
 })
 
 
@@ -103,50 +100,49 @@ app.get('/api/personas/:id',(request, response,next) => {
 })*/
 
 
-app.put('/api/personas/:id',(request,response,next)=> {
+app.put('/api/personas/:id',(request,response,next) => {
   const id = request.params.id
   console.log('[PUT] received body',request.body)
   console.log('[PUT] requested id',id)
   Person.findByIdAndUpdate(id,request.body,{ new: true, runValidators: true }).then(
-    p=>{
+    p => {
       console.log('p inside then',p)
       if(!p){return response.status(404).end()}
       response.json(p)
-    }).catch(error=>next(error))
+    }).catch(error => next(error))
 })
 
 app.delete('/api/personas/:id',(request, response,next) => {
-    const id=request.params.id
-    console.log("[DELETION] id",id)
-    Person.findByIdAndDelete(id).then(p=>
-      {
-          console.log('deleted id')
-          response.status(204).end()
-      }
-    ).catch(error=>next(error))
+  const id=request.params.id
+  console.log('[DELETION] id',id)
+  Person.findByIdAndDelete(id).then(() =>
+  {
+    console.log('deleted id')
+    response.status(204).end()
+  }
+  ).catch(error => next(error))
 })
 
 app.post('/api/personas',(request,response,next) => {
+  console.log('requestbody name',request.body.name)
+  console.log('requestbody number',request.body.number)
+  if (!request.body.number || !request.body.name)
+  {
+    response.statusMessage='please fill number or name'
+    response.status(500).json({ 'error':'name or number missing' })
+  }
+  else
+  {
+    const reqName = request.body.name
+    const reqNumber = request.body.number
+    
+    const person = new Person({ name:reqName,number:reqNumber })
 
-    console.log("requestbody name",request.body.name)
-    console.log("requestbody number",request.body.number)
-    if (!request.body.number || !request.body.name)
-    {
-        response.statusMessage="please fill number or name"
-        response.status(500).json({"error":"name or number missing"})
-    }
-    else
-    {
-      const reqName = request.body.name
-      const reqNumber = request.body.number
-      
-      const person = new Person({name:reqName,number:reqNumber})
-
-      person.save().then(res=>{
-        console.log('saved new entry')
-        response.json(res)
-      }).catch(error=>next(error))
-    }
+    person.save().then(res => {
+      console.log('saved new entry')
+      response.json(res)
+    }).catch(error => next(error))
+  }
 
 })
 
@@ -175,27 +171,26 @@ app.post('/api/personas',(request,response,next) => {
 })*/
 
 app.get('/info',(request, response,next) => {
-    Person.countDocuments().then(p=>
-      {
-        console.log('count documents:',p)
-        response.send(`Phonebook has info for ${p} people.<br> ${new Date().toString()}`)
-      }
-    ).catch(error=>next(error))
+  Person.countDocuments().then(p =>
+  {
+    console.log('count documents:',p)
+    response.send(`Phonebook has info for ${p} people.<br> ${new Date().toString()}`)
+  }
+  ).catch(error => next(error))
 })
 
 //Note that the error-handling middleware has to be the last loaded middleware, 
 // also all the routes should be registered before the error-handler!
 
 const errorHandler = (error, request, response, next) => {
-  console.error("[ERROR HANDLER]",error.message)
+  console.error('[ERROR HANDLER]',error.message)
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
   }
   if(error.name==='ValidationError'){
-    return response.status(400).send({error:error.message})
-  } 
-
+    return response.status(400).send({ error:error.message })
+  }
   next(error)
 }
 
