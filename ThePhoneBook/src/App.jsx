@@ -159,6 +159,11 @@ const App = () => {
           setDeletionFlag(false)
           setNotificationMessage('Number modified')
           setTimeout(()=>{setNotificationMessage(null)},messageShownSec)
+        }).catch(error=>{
+          console.log(error.response.data.error)
+          setDeletionFlag(true)
+          setNotificationMessage(error.response.data.error)
+          setTimeout(()=>{setNotificationMessage(null)},messageShownSec)
         })
       }
       else
@@ -182,6 +187,11 @@ const App = () => {
           setDeletionFlag(false)
           setNotificationMessage('Name modified')
           setTimeout(()=>{setNotificationMessage(null)},messageShownSec)
+        }).catch(error=>{
+          console.log(error.response.data.error)
+          setDeletionFlag(true)
+          setNotificationMessage(error.response.data.error)
+          setTimeout(()=>{setNotificationMessage(null)},messageShownSec)
         })
       }
       else
@@ -198,7 +208,12 @@ const App = () => {
         setDeletionFlag(false)
         setNotificationMessage('New user added')
         setTimeout(()=>{setNotificationMessage(null)},messageShownSec)
-      })
+      }).catch(error=>{
+          console.log(error.response.data.error)
+          setDeletionFlag(true)
+          setNotificationMessage(error.response.data.error)
+          setTimeout(()=>{setNotificationMessage(null)},messageShownSec)
+        })
       //setPersons(persons.concat(newPerson)) //concat method implicitly creates a copy ;) 
       console.log('persons:',persons)
       setNewName('')
