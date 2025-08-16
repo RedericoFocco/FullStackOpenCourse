@@ -20,8 +20,8 @@ POST http://localhost:3001/api/personas
 Content-Type: application/json; charset=utf-8
 
 {
-    "name":"fero",
-    "number":"123"
+    "name":"feror",
+    "number":"123-1123456"
 }
 
 #### Post Bad Req
@@ -29,7 +29,16 @@ POST http://localhost:3001/api/personas
 Content-Type: application/json; charset=utf-8
 
 {
+    
+}
 
+#### Post Bad Req - Validation errors
+POST http://localhost:3001/api/personas
+Content-Type: application/json; charset=utf-8
+
+{
+    "name":"fero",
+    "number":"12"
 }
 
 #### Put Good Req
@@ -37,8 +46,8 @@ PUT http://localhost:3001/api/personas/689cc3b9333160bc635d727d
 Content-Type: application/json; charset=utf-8
 
 {
-    "name":"fer",
-    "number":"123"
+    "name":"feroo",
+    "number":"123-123456"
 }
 
 
@@ -48,6 +57,15 @@ Content-Type: application/json; charset=utf-8
 
 {
 
+}
+
+#### Put Bad Req - validator
+PUT http://localhost:3001/api/personas/689cc3b9333160bc635d727d
+Content-Type: application/json; charset=utf-8
+
+{
+    "name":"fe",
+    "number":"123"
 }
 
 #### Info

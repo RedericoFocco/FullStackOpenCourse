@@ -126,7 +126,7 @@ app.delete('/api/personas/:id',(request, response,next) => {
     ).catch(error=>next(error))
 })
 
-app.post('/api/personas',(request,response) => {
+app.post('/api/personas',(request,response,next) => {
 
     console.log("requestbody name",request.body.name)
     console.log("requestbody number",request.body.number)
@@ -145,7 +145,7 @@ app.post('/api/personas',(request,response) => {
       person.save().then(res=>{
         console.log('saved new entry')
         response.json(res)
-      })
+      }).catch(error=>next(error))
     }
 
 })
@@ -187,10 +187,13 @@ app.get('/info',(request, response,next) => {
 // also all the routes should be registered before the error-handler!
 
 const errorHandler = (error, request, response, next) => {
-  console.error(error.message)
+  console.error("[ERROR HANDLER]",error.message)
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
+  }
+  if(error.name==='ValidationError'){
+    return response.status(400).send({error:error.message})
   } 
 
   next(error)
