@@ -1,5 +1,5 @@
-require('dotenv').config() // need to be imported before calling modules, models ecc
 const express = require('express')
+const config = require('./utils/config')
 const mongoose = require('mongoose')
 const app = express()
 const logger = require('./utils/logger')
@@ -13,7 +13,8 @@ const blogSchema = mongoose.Schema({
 
 const Blog = mongoose.model('Blog', blogSchema)
 
-const mongoUrl = process.env.MONGO_URI_BLOGS
+const mongoUrl = config.MONGO_DB_URI
+logger.info('mongoUrl',mongoUrl)
 mongoose.connect(mongoUrl)
 
 app.use(express.json())
