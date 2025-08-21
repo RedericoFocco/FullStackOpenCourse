@@ -3,8 +3,7 @@ const config = require('./utils/config')
 const mongoose = require('mongoose')
 const app = express()
 const logger = require('./utils/logger')
-const Blog = require('./models/blogs')
-
+const blogsRouter = require('./controllers/blogsRoute')
 
 const url=config.MONGO_DB_URI
 
@@ -19,21 +18,7 @@ mongoose.connect(url).then(
 })
 
 app.use(express.json())
-
-app.get('/api/blogs', (request, response) => {
-  Blog.find({}).then((blogs) => {
-    response.json(blogs)
-  })
-})
-
-app.post('/api/blogs', (request, response) => {
-  logger.info('Entered [POST]')
-  const blog = new Blog(request.body)
-  logger.info('[POST] blog:',blog)
-  blog.save().then((result) => {
-    response.status(201).json(result)
-  })
-})
+app.use('/api/blogs',blogsRouter)
 
 const PORT = config.PORT
 app.listen(PORT, () => {
