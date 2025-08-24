@@ -13,7 +13,7 @@ const blogSchema = mongoose.Schema({
         message:props => `${props.value} is not a valid phone number`
     }
   },
-  likes: Number,
+  likes: Number, //add that must be >0 as validation eventually
 })
 
 blogSchema.set('toJSON',{

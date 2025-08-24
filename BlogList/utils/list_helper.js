@@ -4,6 +4,7 @@ const dummy = (blogs) => {
   return 1
 }
 
+
 const totalLikes = (blogsLikes) => 
 {
     const reducer = (sum, item) => {
@@ -20,7 +21,7 @@ const mostLikes = (blogsLikes) =>
 {
   return blogsLikes.length === 0
     ? []
-    : blogsLikes.reduce((max,curr)=>max.a>curr.a?max:curr)
+    : blogsLikes.reduce((max,curr)=>max.likes>curr.likes?max:curr)
 }
 
 const mostBlogsPerAuthor = (blogsLikes) => 
@@ -31,7 +32,18 @@ const mostBlogsPerAuthor = (blogsLikes) =>
     .groupBy(x=>x.author)
     .map((value,key)=>({author:key,totalBlogs:value.length}))
     .value()
-    .reduce((max,curr)=>max.a>curr.a?max:curr)
+    .reduce((max,curr)=>max.totalBlogs>curr.totalBlogs?max:curr)
 }
 
-module.exports = {totalLikes,mostLikes,mostBlogsPerAuthor}
+const authorMostLikes = (blogsLikes) => 
+{
+  return blogsLikes.length === 0
+    ? []
+    :  _(blogsLikes)
+    .groupBy(x=>x.author)
+    .map((value,key)=>({author:key,mostLikes:value.reduce((max,curr)=>max.likes>curr.likes?max:curr).likes}))
+    .value()
+    .reduce((max,curr)=>max.mostLikes>curr.mostLikes?max:curr)
+}
+
+module.exports = {totalLikes,mostLikes,mostBlogsPerAuthor,authorMostLikes}

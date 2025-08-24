@@ -49,9 +49,39 @@ const listWithOneBlog = [
     url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
     likes: 12,
     __v: 0
+  },
+  {
+    _id: "5a422b3a1b54a676234d17f9",
+    title: "Canonical string reduction",
+    author: "Fero",
+    url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+    likes: 120,
+    __v: 0
   }]
 
 describe('total likes', () => {
+  test('when list has only one blog, equals the likes of that', () => {
+    const result = listHelper.authorMostLikes(listWithOneBlog)
+    assert.deepStrictEqual(result, {author: 'Edsger W. Dijkstra',mostLikes: 5})
+  })
+
+  test('when list has 0 blog', () => {
+    const result = listHelper.authorMostLikes(listNoBlog)
+    assert.deepStrictEqual(result, [])
+  })
+
+   test('when list has N blog', () => {
+    const result = listHelper.authorMostLikes(blogs)
+    assert.deepStrictEqual(result, {author: 'Edsger W. Dijkstra',mostLikes: 12 })
+  })
+
+  test('when list has N blog', () => {
+    const result = listHelper.authorMostLikes(blogs)
+    assert.deepStrictEqual(result, {author: 'Fero',mostLikes: 120 })
+  })
+})
+
+  describe('total likes', () => {
   test('when list has only one blog, equals the likes of that', () => {
     const result = listHelper.mostBlogsPerAuthor(listWithOneBlog)
     assert.deepStrictEqual(result, {author: 'Edsger W. Dijkstra',totalBlogs: 1})
