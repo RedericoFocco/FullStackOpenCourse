@@ -4,10 +4,10 @@ const dummy = (blogs) => {
   return 1
 }
 
-const totaLikes = (blogsLikes) => 
+const totalLikes = (blogsLikes) => 
 {
     const reducer = (sum, item) => {
-    console.log('[list helper] item',item)
+    //console.log('[list helper] item',item)
     return sum + item.likes
   }
 
@@ -16,6 +16,11 @@ const totaLikes = (blogsLikes) =>
     : blogsLikes.reduce(reducer, 0) 
 }
 
-module.exports = {
-  totaLikes
+const mostLikes = (blogsLikes) => 
+{
+  return blogsLikes.length === 0
+    ? []
+    : blogsLikes.reduce((max,curr)=>max.a>curr.a?max:curr)
 }
+
+module.exports = {totalLikes,mostLikes}
