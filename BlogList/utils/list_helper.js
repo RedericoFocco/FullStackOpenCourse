@@ -1,5 +1,5 @@
 const { totalmem } = require("os")
-
+const _ = require('lodash')
 const dummy = (blogs) => {
   return 1
 }
@@ -23,4 +23,15 @@ const mostLikes = (blogsLikes) =>
     : blogsLikes.reduce((max,curr)=>max.a>curr.a?max:curr)
 }
 
-module.exports = {totalLikes,mostLikes}
+const mostBlogsPerAuthor = (blogsLikes) => 
+{
+  return blogsLikes.length === 0
+    ? []
+    :  _(blogsLikes)
+    .groupBy(x=>x.author)
+    .map((value,key)=>({author:key,totalBlogs:value.length}))
+    .value()
+    .reduce((max,curr)=>max.a>curr.a?max:curr)
+}
+
+module.exports = {totalLikes,mostLikes,mostBlogsPerAuthor}
