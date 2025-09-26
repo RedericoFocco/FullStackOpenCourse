@@ -48,7 +48,7 @@ const authorMostLikes = (blogsLikes) =>
 
 const keysWithId = (blogs) => 
 {
-  return blogs.some(obj=>'_id' in obj) 
+  return blogs.some(obj=>'id' in obj) 
 }
 
 module.exports = {totalLikes,mostLikes,mostBlogsPerAuthor,authorMostLikes,keysWithId}

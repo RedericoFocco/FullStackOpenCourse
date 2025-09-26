@@ -43,15 +43,29 @@ test('blogs are returned as json', async () => {
     .expect('Content-Type', /application\/json/)
 })
 
-test('all blogs returned',async()=>{
-  const blogsReturned = await api.get('/api/blogs')
-  assert.strictEqual(blogsReturned.body.length,initialBlogs.length)
-})
-
 test('id not _id',async()=>{
   const blogsReturned = await api.get('/api/blogs')
   const idAsKey = listHelper.keysWithId(blogsReturned.body)
   assert.strictEqual(idAsKey,true)
+})
+
+test('a valid blog can be added ', async () => {
+  const newBlog = {
+    title: 'async/await simplifies making async calls',
+    author: "fe",
+    url: "https://test.fero.com",
+    likes: "3",
+  }
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+  const contents = response.body.map(r => r.title)
+  assert(contents.includes('async/await simplifies making async calls'))
+  assert.strictEqual(response.body.length,initialBlogs.length+1) //doimg in other test not sure they executed in order, right? 
 })
 
 after(async () => {
