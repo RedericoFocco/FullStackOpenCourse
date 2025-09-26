@@ -10,11 +10,14 @@ logger.info('[APP] connecting to mongo')
 
 const url=config.MONGO_DB_URI
 
+logger.info(process.env.PORT)
+logger.info(process.env.NODE_ENV)
+
 mongoose.set('strictQuery',false)
 
 mongoose.connect(url).then(
     ()=>{
-        logger.info('connected to mongo')
+        logger.info(`connected to mongo`)
     }
 ).catch(error=>{
     logger.error('error connecting to mongo',error.message)
