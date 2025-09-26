@@ -72,6 +72,18 @@ test('a valid blog can be added ', async () => {
   assert.strictEqual(response.body.length,initialBlogs.length+1) //doimg in other test not sure they executed in order, right? 
 })
 
+test('a valid blog can be added ', async () => {
+  const newBlog = {
+    author: "fe",
+    url: "https://test.fero.com",
+    likes: "3",
+  }
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+})
+
 after(async () => {
   await mongoose.connection.close()
 })

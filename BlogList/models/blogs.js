@@ -2,7 +2,10 @@ const mongoose = require('mongoose')
 
 
 const blogSchema = mongoose.Schema({
-  title: String,
+  title: {
+    type: String,
+    required: [true, 'title is mandatory'] // mandatory 
+  },
   author: String,
   url: {
     type:String,
@@ -15,7 +18,7 @@ const blogSchema = mongoose.Schema({
   },
   likes: {
     type:Number,
-    default:0
+    default:0,
   }, //add that must be >0 as validation eventually
 })
 

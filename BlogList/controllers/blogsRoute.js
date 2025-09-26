@@ -12,8 +12,24 @@ blogsRouter.post('/', async (request, response) => {
   logger.info('Entered [POST]')
   const blog = new Blog(request.body)
   logger.info('[POST] blog:',blog)
-  const savedNote = await blog.save()
-  response.status(201).json(blog)
+
+  //const savedNote = await blog.save()
+  //response.status(201).json(savedNote)
+  
+  try{
+    const savedNote = await blog.save()
+    response.status(201).json(savedNote)
+  }
+  catch(error)
+  {
+    logger.error('Errore nel salvataggio:', error)
+
+    if (error.name === 'ValidationError') {
+      response.status(400).json({ error: error.message })
+    } else {
+      response.status(500).json({ error: 'Errore interno del server' })
+    }
+  }
   })
 
 module.exports = blogsRouter
