@@ -16,14 +16,12 @@ const initialBlogs = [
   {
     "title": "test3",
     "author": "fero3",
-    "url": "https://test.fero.com",
-    "likes": 130
+    "url": "https://test.fero.com"
   },
   {
     "title": "test24",
     "author": "fero4",
-    "url": "https://test.fero.com",
-    "likes": 140
+    "url": "https://test.fero.com"
   }
 ]
 
@@ -45,8 +43,14 @@ test('blogs are returned as json', async () => {
 
 test('id not _id',async()=>{
   const blogsReturned = await api.get('/api/blogs')
-  const idAsKey = listHelper.keysWithId(blogsReturned.body)
+  const idAsKey = listHelper.keysWithId(blogsReturned.body,'id')
   assert.strictEqual(idAsKey,true)
+})
+
+test('no like are 0 likes',async()=>{
+  const blogsReturned = await api.get('/api/blogs')
+  const zeroLikes = listHelper.keysWithId(blogsReturned.body,'likes') //not so strong as just one can have likes element to pass? 
+  assert.strictEqual(zeroLikes,true)
 })
 
 test('a valid blog can be added ', async () => {

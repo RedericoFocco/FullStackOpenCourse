@@ -46,9 +46,9 @@ const authorMostLikes = (blogsLikes) =>
     .reduce((max,curr)=>max.mostLikes>curr.mostLikes?max:curr)
 }
 
-const keysWithId = (blogs) => 
+const keysWithId = (blogs,lookupElement) => 
 {
-  return blogs.some(obj=>'id' in obj) 
+  return blogs.some(obj=>lookupElement in obj) 
 }
 
 module.exports = {totalLikes,mostLikes,mostBlogsPerAuthor,authorMostLikes,keysWithId}
