@@ -19,6 +19,28 @@ Content-Type: application/json; charset=utf-8
     "likes": 100
 }
 
+#### Delete Bad Req
+DELETE http://localhost:3003/api/blogs/68e2aba83b97f1714d39baae
+
+#### Delete Good Req (fill id in url everytime)
+DELETE http://localhost:3003/api/blogs/68e2b3bd2b9f46a7d0dad2a1
+
 
 #### GET Good Req
 GET http://localhost:3003/api/blogs
+
+#### PUT Good Req
+PUT http://localhost:3003/api/blogs/68e2ab68a1b6f2045a6bb7eb
+Content-Type: application/json; charset=utf-8
+
+{
+    "likes": 499
+}
+
+#### PUT Bad Req
+PUT http://localhost:3003/api/blogs/68e2ab68a1b6f2045a6bb7ed
+Content-Type: application/json; charset=utf-8
+
+{
+    "likes": 500
+}

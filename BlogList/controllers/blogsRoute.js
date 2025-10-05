@@ -8,6 +8,39 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs) //here id, because pf the toJSON method in the model folder
   })
 
+blogsRouter.delete('/:id', async (request, response) => {
+  const id = request.params.id
+  logger.info("id param",id)
+  const resp = await Blog.findByIdAndDelete(id)
+  if(!resp)
+  {
+    console.log("id doesn't exist")
+    response.status(404).json('id doesnt exist')
+  }
+  else
+  {
+    response.status(200).json(resp)
+  }
+  }
+  )
+
+  blogsRouter.put('/:id', async (request, response) => {
+  const id = request.params.id
+  logger.info("id param",id)
+  const resp = await Blog.findByIdAndUpdate(id,request.body,{ new: true, runValidators: true })
+  if(!resp)
+  {
+    console.log("id doesn't exist")
+    response.status(404).json('id doesnt exist')
+  }
+  else
+  {
+    logger.info("id good, resp:",resp)
+    response.status(200).json(resp)
+  }
+  }
+  )
+
 blogsRouter.post('/', async (request, response) => {
   logger.info('Entered [POST]')
   const blog = new Blog(request.body)
