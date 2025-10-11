@@ -90,7 +90,7 @@ test('a valid blog can be put ', async () => {
   const goodId = blogGood[0].id
   const newLikes = {
     likes: "3"
-  }
+  } 
   await api
     .put(`/api/blogs/${goodId}`)
     .send(newLikes)
