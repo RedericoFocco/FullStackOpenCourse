@@ -30,7 +30,7 @@ DELETE http://localhost:3003/api/blogs/68e2b3bd2b9f46a7d0dad2a1
 GET http://localhost:3003/api/blogs
 
 #### PUT Good Req
-PUT http://localhost:3003/api/blogs/68e2ab68a1b6f2045a6bb7eb
+PUT http://localhost:3003/api/blogs/68e2abec3b97f1714d39bab2
 Content-Type: application/json; charset=utf-8
 
 {

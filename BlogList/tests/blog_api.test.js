@@ -8,6 +8,7 @@ const listHelper = require('../utils/list_helper')
 
 const Blog = require('../models/blogs')
 const { log } = require('node:console')
+const { first } = require('lodash')
 
 const api = supertest(app)
 
@@ -82,6 +83,26 @@ test('a valid blog can be added ', async () => {
     .post('/api/blogs')
     .send(newBlog)
     .expect(400)
+})
+
+test('a valid blog can be put ', async () => {
+  const blogGood = (await api.get("/api/blogs")).body
+  const goodId = blogGood[0].id
+  const newLikes = {
+    likes: "3"
+  }
+  await api
+    .put(`/api/blogs/${goodId}`)
+    .send(newLikes)
+    .expect(200)
+})
+
+test('a valid blog can be deleted ', async () => {
+  const blogGood = (await api.get("/api/blogs")).body
+  const goodId = blogGood[0].id
+  await api
+    .delete(`/api/blogs/${goodId}`)
+    .expect(200)
 })
 
 after(async () => {
