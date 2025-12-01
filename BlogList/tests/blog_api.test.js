@@ -7,6 +7,7 @@ const app = require('../app')
 const listHelper = require('../utils/list_helper')
 
 const Blog = require('../models/blogs')
+const User = require('../models/users')
 const { log } = require('node:console')
 const { first } = require('lodash')
 
@@ -26,6 +27,14 @@ const initialBlogs = [
   }
 ]
 
+const initialUser = [
+  {
+    "username": "fero",
+    "name": "fero3",
+    "password": "FeroHashi"
+  }
+]
+
 
 beforeEach(async () => {
   await Blog.deleteMany({})
@@ -33,6 +42,12 @@ beforeEach(async () => {
   await blogObject.save()
   blogObject = new Blog(initialBlogs[1])
   await blogObject.save()
+})
+
+beforeEach(async () => {
+  await User.deleteMany({})
+  let userObject = new User(initialUser[0])
+  await userObject.save()
 })
 
 test('blogs are returned as json', async () => {
@@ -82,6 +97,30 @@ test('a valid blog can be added ', async () => {
   await api
     .post('/api/blogs')
     .send(newBlog)
+    .expect(400)
+})
+
+test('a not valid user cannot be added (2 char password)', async () => {
+  const newUser = {
+    username: "fede",
+    name: "effe",
+    password: "abc",
+  }
+  await api
+    .post('/api/users')
+    .send(newUser)
+    .expect(400)
+})
+
+test('a not valid user as same username in the db', async () => {
+  const newUser = {
+    username: "fero",
+    name: "effe",
+    password: "abcfe",
+  }
+  await api
+    .post('/api/users')
+    .send(newUser)
     .expect(400)
 })
 
