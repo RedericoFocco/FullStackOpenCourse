@@ -29,6 +29,28 @@ DELETE http://localhost:3003/api/blogs/68e2b3bd2b9f46a7d0dad2a1
 #### GET Good Req
 GET http://localhost:3003/api/blogs
 
+#### GET Good Req Users
+GET http://localhost:3003/api/users
+
+#### POST Good Req Users
+POST  http://localhost:3003/api/users
+Content-Type: application/json; charset=utf-8
+
+{
+    "username": "federo",
+    "name": "fero",
+    "password": "FeroHash"
+}
+
+#### POST Wrong Req Users - Username Mandatory
+POST  http://localhost:3003/api/users
+Content-Type: application/json; charset=utf-8
+
+{
+    "name": "fero",
+    "password": "FeroHash"
+}
+
 #### PUT Good Req
 PUT http://localhost:3003/api/blogs/68e2abec3b97f1714d39bab2
 Content-Type: application/json; charset=utf-8
