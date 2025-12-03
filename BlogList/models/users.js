@@ -13,7 +13,11 @@ const userSchema = mongoose.Schema({
   password: {
     type: String,
     required: [true, 'password is mandatory']
-  }
+  },
+  blogs: [{
+    type:mongoose.Schema.Types.ObjectId,
+    ref: "Blogs"
+  }]
 })
 
 userSchema.set('toJSON',{

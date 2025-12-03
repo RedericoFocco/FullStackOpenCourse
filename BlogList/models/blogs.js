@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+const User = require('../models/users')
 
 const blogSchema = mongoose.Schema({
   title: {
@@ -20,6 +20,10 @@ const blogSchema = mongoose.Schema({
     type:Number,
     default:0,
   }, //add that must be >0 as validation eventually
+  user_id:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }
 })
 
 blogSchema.set('toJSON',{

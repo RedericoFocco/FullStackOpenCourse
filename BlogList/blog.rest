@@ -16,7 +16,8 @@ Content-Type: application/json; charset=utf-8
     "title": "test2",
     "author": "fero2",
     "url": "https://test.fero.com",
-    "likes": 100
+    "likes": 1011,
+    "userId":"692de3a4672fe46654226d90"
 }
 
 #### Delete Bad Req

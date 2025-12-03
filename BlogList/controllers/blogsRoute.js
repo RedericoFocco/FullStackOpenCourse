@@ -1,9 +1,10 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blogs')
+const User = require('../models/users')
 const logger = require('../utils/logger')
 
 blogsRouter.get('/', async (request, response) => {
-  const blogs = await Blog.find({})
+  const blogs = await Blog.find({}).populate("user_id")
   logger.info("blogs",blogs) //here you have _id
   response.json(blogs) //here id, because pf the toJSON method in the model folder
   })
@@ -43,7 +44,14 @@ blogsRouter.delete('/:id', async (request, response) => {
 
 blogsRouter.post('/', async (request, response) => {
   logger.info('Entered [POST]')
-  const blog = new Blog(request.body)
+  const body = request.body
+  const user = await User.findById(body.userId)
+  const blog = new Blog({
+    title: body.title,
+    url:body.url,
+    likes:body.likes,
+    user_id:user._id
+  })
   logger.info('[POST] blog:',blog)
 
   //const savedNote = await blog.save()
