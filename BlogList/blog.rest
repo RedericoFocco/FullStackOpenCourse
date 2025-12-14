@@ -10,14 +10,15 @@ Content-Type: application/json; charset=utf-8
 
 #### Post Good Req
 POST http://localhost:3003/api/blogs
+Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZlZGVyaWNvIiwiaWQiOiI2OTMwNzAyNzI2NWY2OGFkNmNiMDYxNzAiLCJpYXQiOjE3NjU3Mzc2NzR9.phVIB_H6Bny4mrHiAODq4qilL0WDdoLhI4U7VmmMWF0"
 Content-Type: application/json; charset=utf-8
 
 {
-    "title": "test2",
+    "title": "test3",
     "author": "fero2",
     "url": "https://test.fero.com",
     "likes": 1011,
-    "userId":"692de3a4672fe46654226d90"
+    "userId":"69307027265f68ad6cb06170"
 }
 
 #### Delete Bad Req

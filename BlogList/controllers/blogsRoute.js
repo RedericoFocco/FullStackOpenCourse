@@ -1,7 +1,22 @@
 const blogsRouter = require('express').Router()
+const { resource } = require('../app')
 const Blog = require('../models/blogs')
 const User = require('../models/users')
 const logger = require('../utils/logger')
+const jwt = require('jsonwebtoken')
+
+
+const extractBearer = request => {
+  const authorization = request.get('authorization')
+  //startswith fails as it actually starts with '
+  logger.info("startsWith test:", authorization.startsWith("'Bearer "))
+  if (authorization && authorization.startsWith("'Bearer")) {
+    logger.info("valid authorization")
+    return authorization.replace("'Bearer ", '')
+  }
+  logger.info("invalid authorization - no Bearer prefix")
+  return null
+}
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({}).populate("user_id")
@@ -44,7 +59,19 @@ blogsRouter.delete('/:id', async (request, response) => {
 
 blogsRouter.post('/', async (request, response) => {
   logger.info('Entered [POST]')
+  const bearer = extractBearer(request)
+  //logger.info("bearer",bearer)
+  //logger.info(bearer) => last char is "
+  const decodedToken = jwt.verify(bearer.slice(0,-1),process.env.SECRET)
+  logger.info("decodedToken",decodedToken)
+  if(!decodedToken.id)
+  {
+    console.log("token not valid")
+    response.status(401).json("invalid jwt")
+  }
+
   const body = request.body
+  logger.info("body:",body)
   const user = await User.findById(body.userId)
   const blog = new Blog({
     title: body.title,
