@@ -15,18 +15,41 @@ blogsRouter.get('/', async (request, response) => {
 
 blogsRouter.delete('/:id', async (request, response) => {
   const id = request.params.id
-  logger.info("id param",id)
-  const resp = await Blog.findByIdAndDelete(id)
-  if(!resp)
+  
+  const bearer=tokenExtractor(request)
+  const decodedToken = jwt.verify(bearer.slice(0,-1),process.env.SECRET)
+  
+  if(!decodedToken.id)
   {
-    console.log("id doesn't exist")
-    response.status(404).json('id doesnt exist')
+    console.log("token not valid")
+    response.status(401).json("invalid jwt")
+  }
+
+  logger.info("id param",id)
+  const blogUser = await Blog.findById(id)
+  const userId = blogUser.user_id
+  const reqUserId = decodedToken.id
+  logger.info("userId",userId.toString())
+  logger.info("reqUserId",reqUserId)
+  if (userId.toString() === reqUserId)
+  {
+    const resp = await Blog.findByIdAndDelete(id)
+    if(!resp)
+    {
+      console.log("id doesn't exist")
+      response.status(404).json('id doesnt exist')
+    }
+    else
+    {
+      response.status(200).json(resp)
+    }
   }
   else
   {
-    response.status(200).json(resp)
+    logger.info("else")
+    response.status(401).json(`Unauthorized, user with id ${reqUserId} is not the author`) //TBcheck
   }
-  }
+}
   )
 
   blogsRouter.put('/:id', async (request, response) => {
