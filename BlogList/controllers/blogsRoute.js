@@ -4,19 +4,8 @@ const Blog = require('../models/blogs')
 const User = require('../models/users')
 const logger = require('../utils/logger')
 const jwt = require('jsonwebtoken')
+const { tokenExtractor } = require('../utils/middleware')
 
-
-const extractBearer = request => {
-  const authorization = request.get('authorization')
-  //startswith fails as it actually starts with '
-  logger.info("startsWith test:", authorization.startsWith("'Bearer "))
-  if (authorization && authorization.startsWith("'Bearer")) {
-    logger.info("valid authorization")
-    return authorization.replace("'Bearer ", '')
-  }
-  logger.info("invalid authorization - no Bearer prefix")
-  return null
-}
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({}).populate("user_id")
@@ -59,7 +48,7 @@ blogsRouter.delete('/:id', async (request, response) => {
 
 blogsRouter.post('/', async (request, response) => {
   logger.info('Entered [POST]')
-  const bearer = extractBearer(request)
+  const bearer = tokenExtractor(request)
   //logger.info("bearer",bearer)
   //logger.info(bearer) => last char is "
   const decodedToken = jwt.verify(bearer.slice(0,-1),process.env.SECRET)
