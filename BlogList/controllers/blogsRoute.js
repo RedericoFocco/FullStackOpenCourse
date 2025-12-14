@@ -4,7 +4,7 @@ const Blog = require('../models/blogs')
 const User = require('../models/users')
 const logger = require('../utils/logger')
 const jwt = require('jsonwebtoken')
-const { tokenExtractor } = require('../utils/middleware')
+const { tokenExtractor, userExtractor } = require('../utils/middleware')
 
 
 blogsRouter.get('/', async (request, response) => {
@@ -71,7 +71,7 @@ blogsRouter.delete('/:id', async (request, response) => {
 
 blogsRouter.post('/', async (request, response) => {
   logger.info('Entered [POST]')
-  const bearer = tokenExtractor(request)
+  /*const bearer = tokenExtractor(request)
   //logger.info("bearer",bearer)
   //logger.info(bearer) => last char is "
   const decodedToken = jwt.verify(bearer.slice(0,-1),process.env.SECRET)
@@ -80,8 +80,10 @@ blogsRouter.post('/', async (request, response) => {
   {
     console.log("token not valid")
     response.status(401).json("invalid jwt")
-  }
+  }*/
 
+  const usersReq = userExtractor(request)
+  logger.info("usersReq",usersReq)
   const body = request.body
   logger.info("body:",body)
   const user = await User.findById(body.userId)
