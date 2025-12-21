@@ -6,12 +6,13 @@ const getAll = async () => {
   return response.data
 }
 
-const postNewBlog = async ({title_,author_,url_,token_}) => {
+const postNewBlog = async ({title_,author_,url_,token_,userId_}) => {
   const response = await axios.post(baseUrl,
     {
       "title":title_,
       "author":author_,
-      "url":url_
+      "url":url_,
+      "userId":userId_
     },
     {
       headers: {

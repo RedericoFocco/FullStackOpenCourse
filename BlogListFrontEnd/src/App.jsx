@@ -3,12 +3,15 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
+const msgDelaySec = 5000 
+
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [loginMsg, setLoginMsg] = useState('')
-  const [wrongLoginMsg, setWrongLoginMsg] = useState('') 
+  const [wrongLoginMsg, setWrongLoginMsg] = useState('')
+  const [newBlogMsg, setNewBlogMsg] = useState('') 
   const [user, setUser] = useState(null)
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -106,7 +109,7 @@ const App = () => {
             />
           </label>
         </div>
-
+        <p>{newBlogMsg}</p>
         <button type="submit">create</button>
       </form>
       </>
@@ -127,10 +130,13 @@ const App = () => {
   
   const handleNewBlog = async eventClick => {
     eventClick.preventDefault()
-    const postObj = {tilte_:title,author_:author,url_:url,token_:user.token}
+    const postObj = {title_:title,author_:author,url_:url,token_:user.token,userId_:user.userId}
     try
     {
       const response = await blogService.postNewBlog(postObj)
+      console.log('response',response)
+      setNewBlogMsg(`new blog named ${response.title} added!`)
+      setTimeout(()=>{setNewBlogMsg(null)},msgDelaySec)
     }
     catch
     {
@@ -156,7 +162,7 @@ const App = () => {
       if(user)
       {
         setLoginMsg(`${user.username} logged in`)
-        setTimeout(()=>{setLoginMsg(null)},2000)
+        setTimeout(()=>{setLoginMsg(null)},msgDelaySec)
         console.log('logged!',user)
         setUser(user)
       }
