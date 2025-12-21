@@ -9,12 +9,24 @@ const App = () => {
   const [password, setPassword] = useState('') 
   const [loginMsg, setLoginMsg] = useState('')
   const [wrongLoginMsg, setWrongLoginMsg] = useState('') 
-  const [user, setUser] = useState(null) 
+  const [user, setUser] = useState(null)
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('') 
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
+  }, [])
+
+  useEffect(() => {
+    const loggedUser = window.localStorage.getItem('user')
+    const loggedUserJson = JSON.parse(loggedUser)
+    if (loggedUserJson)
+    {
+      setUser(loggedUserJson)
+    }
   }, [])
 
   const logoutForm = () => (
@@ -57,6 +69,51 @@ const App = () => {
       )
   }
 
+  const createBlog = () => {
+      return (
+    <>
+      <h2>Create New</h2>
+      <form onSubmit={handleNewBlog}>
+        <div>
+          <label>
+            title:
+            <input
+              type="text"
+              value={title}
+              onChange={({ target }) => setTitle(target.value)}
+            />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            author:
+            <input
+              type="text"
+              value={author}
+              onChange={({ target }) => setAuthor(target.value)}
+            />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            url:
+            <input
+              type="text"
+              value={url}
+              onChange={({ target }) => setUrl(target.value)}
+            />
+          </label>
+        </div>
+
+        <button type="submit">create</button>
+      </form>
+      </>
+      )
+  }
+
+
   const blogList = () => (
     <>
       <h2>blogs</h2>
@@ -68,10 +125,24 @@ const App = () => {
     </>
   ) 
   
+  const handleNewBlog = async eventClick => {
+    eventClick.preventDefault()
+    const postObj = {tilte_:title,author_:author,url_:url,token_:user.token}
+    try
+    {
+      const response = await blogService.postNewBlog(postObj)
+    }
+    catch
+    {
+      console.log('new blog service error!')
+    }
+  }
+
   const handleLogout = async eventClick => {
     eventClick.preventDefault()
     setUser(null)
     setWrongLoginMsg('')
+    window.localStorage.clear()
   }
 
   const handleLogin = async eventClick => {
@@ -80,6 +151,7 @@ const App = () => {
     try
     {
       const user = await loginService.loginPost({username,password})
+      window.localStorage.setItem('user',JSON.stringify(user))
       //console.log("logging output:",loggingOutput)
       if(user)
       {
@@ -104,6 +176,7 @@ const App = () => {
   return (
     <div>
       {user && blogList()}
+      {user && createBlog()}
       {user && logoutForm()}
       {!user && loginForm()}  
     </div>

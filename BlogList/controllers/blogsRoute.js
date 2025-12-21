@@ -71,22 +71,12 @@ blogsRouter.delete('/:id', async (request, response) => {
 
 blogsRouter.post('/', async (request, response) => {
   logger.info('Entered [POST]')
-  /*const bearer = tokenExtractor(request)
-  //logger.info("bearer",bearer)
-  //logger.info(bearer) => last char is "
-  const decodedToken = jwt.verify(bearer.slice(0,-1),process.env.SECRET)
-  logger.info("decodedToken",decodedToken)
-  if(!decodedToken.id)
-  {
-    console.log("token not valid")
-    response.status(401).json("invalid jwt")
-  }*/
-
   const usersReq = userExtractor(request)
   logger.info("usersReq",usersReq)
   const body = request.body
   logger.info("body:",body)
   const user = await User.findById(body.userId)
+  logger.info("user",user)
   const blog = new Blog({
     title: body.title,
     url:body.url,

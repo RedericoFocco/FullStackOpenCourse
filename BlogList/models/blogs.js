@@ -13,7 +13,7 @@ const blogSchema = mongoose.Schema({
         validator: function(v) {
             return /^https:\/\//.test(v) //just to test
         },
-        message:props => `${props.value} is not a valid phone number`
+        message:props => `${props.value} is not a valid url`
     }
   },
   likes: {
