@@ -15,13 +15,14 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('') 
+  const [url, setUrl] = useState('')
+  const [showBlogs, setShowBlogs] = useState(false) 
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
-  }, [])
+  }, [showBlogs])
 
   useEffect(() => {
     const loggedUser = window.localStorage.getItem('user')
@@ -119,7 +120,7 @@ const App = () => {
 
   const blogList = () => (
     <>
-      <h2>blogs</h2>
+      <h2>Blogs</h2>
       <p>{loginMsg}</p>
       <p>Your blogs:</p>
       {blogs.filter((blog)=>blog.user_id.username === user.username).map(blog =>
@@ -137,6 +138,9 @@ const App = () => {
       console.log('response',response)
       setNewBlogMsg(`new blog named ${response.title} added!`)
       setTimeout(()=>{setNewBlogMsg(null)},msgDelaySec)
+      console.log('showBlogs',showBlogs)
+      const sb = showBlogs
+      setShowBlogs(!sb)
     }
     catch
     {
