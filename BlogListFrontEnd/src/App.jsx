@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+//import Togglable from './components/Togglable'
+import CreateBlog from './components/CreateBlog'
+import Togglable from './components/Togglable'
 
 const msgDelaySec = 5000 
 
@@ -72,8 +75,24 @@ const App = () => {
       </>
       )
   }
-
+  
   const createBlog = () => {
+      return (
+        <Togglable buttonLabel="New Blog">
+          <CreateBlog 
+            handleNewBlog_={handleNewBlog}
+            title_={title}
+            handleTitleChange_={({target})=>setTitle(target.value)}
+            author_={author}
+            handleAuthorChange_={({target})=>setAuthor(target.value)}
+            url_={url}
+            handleUrlChange_={({target})=>setUrl(target.value)}
+            newBlogMsg_={newBlogMsg}
+          />
+        </Togglable>
+      )
+    }
+  /*const createBlog = () => {
       return (
     <>
       <h2>Create New</h2>
@@ -115,7 +134,7 @@ const App = () => {
       </form>
       </>
       )
-  }
+  }*/
 
 
   const blogList = () => (
