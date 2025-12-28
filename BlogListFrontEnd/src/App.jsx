@@ -19,13 +19,14 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
-  const [showBlogs, setShowBlogs] = useState(false) 
+  const [showBlogs, setShowBlogs] = useState(false)
+  const [newLikes, setNewLikes] = useState(false) 
  
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
-  }, [showBlogs])
+  }, [showBlogs,newLikes])
 
   useEffect(() => {
     const loggedUser = window.localStorage.getItem('user')
@@ -143,11 +144,25 @@ const App = () => {
       <p>{loginMsg}</p>
       <p>Your blogs:</p>
       {blogs.filter((blog)=>blog.user_id.username === user.username).map(blog =>
-        <Blog key={blog.id} blog={blog} viewButton="View" />
+        <Blog key={blog.id} blog={blog} handleLikes={increaseLikes} viewButton="View" />
       )}
     </>
   ) 
   
+  const increaseLikes = async (blog) => {
+    console.log('blogId:',blog.id)
+    try{
+      const putObj = {likes_:blog.likes+1,id_:blog.id,token_:user.token_}
+      const response = await blogService.moreLikes(putObj)
+      console.log('put response obj',response)
+      setNewLikes(blog.likes+1)
+    }
+    catch{
+      console.log('blog put service error')
+    }
+
+  }
+
   const handleNewBlog = async eventClick => {
     eventClick.preventDefault()
     const postObj = {title_:title,author_:author,url_:url,token_:user.token,userId_:user.userId}

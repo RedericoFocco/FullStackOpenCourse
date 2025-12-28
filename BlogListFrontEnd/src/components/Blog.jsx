@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ blog,viewButton }) => {
+const Blog = ({ blog,viewButton,handleLikes }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -18,7 +18,7 @@ const Blog = ({ blog,viewButton }) => {
     const toggleVisibility = () => {
       setVisible(!visible)
     }
-  
+
     return (
       <div style={blogStyle}>
         <div style={hideWhenVisible}>
@@ -28,7 +28,7 @@ const Blog = ({ blog,viewButton }) => {
         <div style={showWhenVisible}>
           Title:  {blog.title}<br />
           Url: {blog.url}<br />
-          Likes: {blog.likes} <button>Likes</button><br />
+          Likes: {blog.likes} <button onClick={()=>handleLikes(blog)}>Likes</button><br />
           Author: {blog.user_id.name}<br />
           <button onClick={toggleVisibility}>Hide</button>
         </div>

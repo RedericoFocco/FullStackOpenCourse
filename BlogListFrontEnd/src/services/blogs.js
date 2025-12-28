@@ -24,4 +24,19 @@ const postNewBlog = async ({title_,author_,url_,token_,userId_}) => {
   return response.data
 }
 
-export default { getAll,postNewBlog }
+const moreLikes = async ({likes_,id_,token_}) => {
+  const response = await axios.put(`${baseUrl}/${id_}`,
+    {
+      "likes":likes_
+    },
+    {
+      headers: {
+        "Authorization":`Bearer ${token_}`,
+        "Content-Type": "application/json; charset=utf-8"
+      }
+  }
+  )
+  return response.data
+}
+
+export default { getAll,postNewBlog,moreLikes }
