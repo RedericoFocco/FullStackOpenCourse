@@ -143,7 +143,7 @@ const App = () => {
       <h2>Blogs</h2>
       <p>{loginMsg}</p>
       <p>Your blogs:</p>
-      {blogs.filter((blog)=>blog.user_id.username === user.username).map(blog =>
+      {blogs.filter((blog)=>blog.user_id.username === user.username).sort((a,b)=>b.likes-a.likes).map(blog =>
         <Blog key={blog.id} blog={blog} handleLikes={increaseLikes} viewButton="View" />
       )}
     </>
