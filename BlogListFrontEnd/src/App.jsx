@@ -143,7 +143,7 @@ const App = () => {
       <p>{loginMsg}</p>
       <p>Your blogs:</p>
       {blogs.filter((blog)=>blog.user_id.username === user.username).map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} viewButton="View" />
       )}
     </>
   ) 
