@@ -39,4 +39,15 @@ const moreLikes = async ({likes_,id_,token_}) => {
   return response.data
 }
 
-export default { getAll,postNewBlog,moreLikes }
+  const deleteBlog = async ({token_,id_}) => {
+  const response = await axios.delete(`${baseUrl}/${id_}`,
+    {
+      headers: {
+        "Authorization":`Bearer ${token_}`,
+      }
+  }
+  )
+  return response.data
+}
+
+export default { getAll,postNewBlog,moreLikes,deleteBlog }

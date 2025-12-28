@@ -14,24 +14,16 @@ blogsRouter.get('/', async (request, response) => {
   })
 
 blogsRouter.delete('/:id', async (request, response) => {
+  logger.info('Entered [DELETE]')
   const id = request.params.id
-  
-  const bearer=tokenExtractor(request)
-  const decodedToken = jwt.verify(bearer.slice(0,-1),process.env.SECRET)
-  
-  if(!decodedToken.id)
-  {
-    console.log("token not valid")
-    response.status(401).json("invalid jwt")
-  }
-
   logger.info("id param",id)
+  const usersReq = userExtractor(request)
+  logger.info("usersReq",usersReq)
   const blogUser = await Blog.findById(id)
   const userId = blogUser.user_id
-  const reqUserId = decodedToken.id
   logger.info("userId",userId.toString())
-  logger.info("reqUserId",reqUserId)
-  if (userId.toString() === reqUserId)
+  logger.info("reqUserId",usersReq.userId)
+  if (userId.toString() === usersReq.userId)
   {
     const resp = await Blog.findByIdAndDelete(id)
     if(!resp)

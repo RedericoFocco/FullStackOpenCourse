@@ -144,7 +144,7 @@ const App = () => {
       <p>{loginMsg}</p>
       <p>Your blogs:</p>
       {blogs.filter((blog)=>blog.user_id.username === user.username).sort((a,b)=>b.likes-a.likes).map(blog =>
-        <Blog key={blog.id} blog={blog} handleLikes={increaseLikes} viewButton="View" />
+        <Blog key={blog.id} blog={blog} handleLikes={increaseLikes} handleDeletion={handleBlogDeletion} viewButton="View" />
       )}
     </>
   ) 
@@ -161,6 +161,32 @@ const App = () => {
       console.log('blog put service error')
     }
 
+  }
+
+  const handleBlogDeletion = async (blog) => {
+    console.log('passed blog:',blog)
+    if (blog)
+    {
+      if (window.confirm(`Are you sure you want to delete blog ${blog.title}?`))
+      {
+        try
+        {
+          console.log('deleting blog with id',blog.id)
+          const response = await blogService.deleteBlog({token_:user.token,id_:blog.id})
+          console.log('delete response',response)
+          const sb = showBlogs
+          setShowBlogs(!sb)
+        }
+        catch
+        {
+          console.log('Failed to delete blog')
+        }
+      }
+      else
+      {
+        console.log(`Refused to delete blog ${blog.title}`)
+      }
+    }
   }
 
   const handleNewBlog = async eventClick => {
