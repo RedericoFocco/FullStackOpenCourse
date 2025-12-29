@@ -42,7 +42,7 @@ const App = () => {
       <form onSubmit={handleLogout}>
       <button type="submit">logout</button>
       </form>
-      </>
+    </>
   ) 
 
   const loginForm = () => {
@@ -83,11 +83,11 @@ const App = () => {
           <CreateBlog 
             handleNewBlog_={handleNewBlog}
             title_={title}
-            handleTitleChange_={({target})=>setTitle(target.value)}
+            handleTitleChange_={( { target } ) => setTitle(target.value)}
             author_={author}
-            handleAuthorChange_={({target})=>setAuthor(target.value)}
+            handleAuthorChange_={( { target } ) => setAuthor(target.value)}
             url_={url}
-            handleUrlChange_={({target})=>setUrl(target.value)}
+            handleUrlChange_={({ target } ) => setUrl(target.value)}
             newBlogMsg_={newBlogMsg}
           />
         </Togglable>
@@ -143,7 +143,7 @@ const App = () => {
       <h2>Blogs</h2>
       <p>{loginMsg}</p>
       <p>Your blogs:</p>
-      {blogs.filter((blog)=>blog.user_id.username === user.username).sort((a,b)=>b.likes-a.likes).map(blog =>
+      {blogs.filter((blog) => blog.user_id.username === user.username).sort((a,b) => b.likes-a.likes).map(blog =>
         <Blog key={blog.id} blog={blog} handleLikes={increaseLikes} handleDeletion={handleBlogDeletion} viewButton="View" />
       )}
     </>
@@ -152,7 +152,7 @@ const App = () => {
   const increaseLikes = async (blog) => {
     console.log('blogId:',blog.id)
     try{
-      const putObj = {likes_:blog.likes+1,id_:blog.id,token_:user.token_}
+      const putObj = { likes_:blog.likes+1,id_:blog.id,token_:user.token_ }
       const response = await blogService.moreLikes(putObj)
       console.log('put response obj',response)
       setNewLikes(blog.likes+1)
@@ -172,7 +172,7 @@ const App = () => {
         try
         {
           console.log('deleting blog with id',blog.id)
-          const response = await blogService.deleteBlog({token_:user.token,id_:blog.id})
+          const response = await blogService.deleteBlog({ token_:user.token,id_:blog.id })
           console.log('delete response',response)
           const sb = showBlogs
           setShowBlogs(!sb)
@@ -191,13 +191,13 @@ const App = () => {
 
   const handleNewBlog = async eventClick => {
     eventClick.preventDefault()
-    const postObj = {title_:title,author_:author,url_:url,token_:user.token,userId_:user.userId}
+    const postObj = { title_:title,author_:author,url_:url,token_:user.token,userId_:user.userId }
     try
     {
       const response = await blogService.postNewBlog(postObj)
       console.log('response',response)
       setNewBlogMsg(`new blog named ${response.title} added!`)
-      setTimeout(()=>{setNewBlogMsg(null)},msgDelaySec)
+      setTimeout(() => {setNewBlogMsg(null)},msgDelaySec)
       console.log('showBlogs',showBlogs)
       const sb = showBlogs
       setShowBlogs(!sb)
@@ -220,13 +220,13 @@ const App = () => {
     //console.log('logging in with', username, password)
     try
     {
-      const user = await loginService.loginPost({username,password})
+      const user = await loginService.loginPost({ username,password })
       window.localStorage.setItem('user',JSON.stringify(user))
       //console.log("logging output:",loggingOutput)
       if(user)
       {
         setLoginMsg(`${user.username} logged in`)
-        setTimeout(()=>{setLoginMsg(null)},msgDelaySec)
+        setTimeout(() => {setLoginMsg(null)},msgDelaySec)
         console.log('logged!',user)
         setUser(user)
       }

@@ -6,44 +6,44 @@ const getAll = async () => {
   return response.data
 }
 
-const postNewBlog = async ({title_,author_,url_,token_,userId_}) => {
+const postNewBlog = async ( { title_,author_,url_,token_,userId_ } ) => {
   const response = await axios.post(baseUrl,
     {
-      "title":title_,
-      "author":author_,
-      "url":url_,
-      "userId":userId_
+      'title':title_,
+      'author':author_,
+      'url':url_,
+      'userId':userId_
     },
     {
       headers: {
-        "Authorization":`Bearer ${token_}`,
-        "Content-Type": "application/json; charset=utf-8"
+        'Authorization':`Bearer ${ token_ }`,
+        'Content-Type': 'application/json; charset=utf-8'
       }
   }
   )
   return response.data
 }
 
-const moreLikes = async ({likes_,id_,token_}) => {
+const moreLikes = async ( { likes_,id_,token_ } ) => {
   const response = await axios.put(`${baseUrl}/${id_}`,
     {
-      "likes":likes_
+      'likes':likes_
     },
     {
       headers: {
-        "Authorization":`Bearer ${token_}`,
-        "Content-Type": "application/json; charset=utf-8"
+        'Authorization':`Bearer ${ token_ }`,
+        'Content-Type': 'application/json; charset=utf-8'
       }
   }
   )
   return response.data
 }
 
-  const deleteBlog = async ({token_,id_}) => {
+  const deleteBlog = async ( { token_,id_ } ) => {
   const response = await axios.delete(`${baseUrl}/${id_}`,
     {
       headers: {
-        "Authorization":`Bearer ${token_}`,
+        'Authorization':`Bearer ${ token_ }`,
       }
   }
   )

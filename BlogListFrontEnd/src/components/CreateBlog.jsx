@@ -1,8 +1,8 @@
-const CreateBlog = ({handleNewBlog_,title_,handleTitleChange_,
+const CreateBlog = ( { handleNewBlog_,title_,handleTitleChange_,
     author_,handleAuthorChange_,
     url_,handleUrlChange_,
     newBlogMsg_
-}) => {
+} ) => {
       return (
     <>
       <h2>Create New</h2>

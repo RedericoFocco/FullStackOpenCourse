@@ -39,9 +39,9 @@ const Blog = ({ blog,viewButton,handleLikes,handleDeletion }) => {
           <button onClick={toggleVisibility}>Hide</button><br />
           Title:  {blog.title}<br />
           Url: {blog.url}<br />
-          Likes: {blog.likes} <button onClick={()=>handleLikes(blog)}>Likes</button><br />
+          Likes: {blog.likes} <button onClick={() => handleLikes(blog)}>Likes</button><br />
           Author: {blog.user_id.name}<br />
-          <button style={buttonStyle} onClick={()=>handleDeletion(blog)}>Delete</button>
+          <button style={buttonStyle} onClick={() => handleDeletion(blog)}>Delete</button>
         </div>
       </div>
     )
