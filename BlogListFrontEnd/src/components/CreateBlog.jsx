@@ -1,19 +1,35 @@
-const CreateBlog = ( { handleNewBlog_,title_,handleTitleChange_,
-    author_,handleAuthorChange_,
-    url_,handleUrlChange_,
-    newBlogMsg_
-} ) => {
+import { useState } from 'react'
+
+const CreateBlog = ( { handleNewBlog_,newBlogMsg_} ) => {
+
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    handleNewBlog_({
+      title,
+      author,
+      url
+    })
+    // Reset form
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+  }
+
       return (
     <>
       <h2>Create New</h2>
-      <form onSubmit={handleNewBlog_}>
+      <form onSubmit={handleSubmit}>
         <div>
           <label>
             title:
             <input
               type="text"
-              value={title_}
-              onChange={handleTitleChange_}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </label>
         </div>
@@ -23,8 +39,8 @@ const CreateBlog = ( { handleNewBlog_,title_,handleTitleChange_,
             author:
             <input
               type="text"
-              value={author_}
-              onChange={handleAuthorChange_}
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
             />
           </label>
         </div>
@@ -34,8 +50,8 @@ const CreateBlog = ( { handleNewBlog_,title_,handleTitleChange_,
             url:
             <input
               type="text"
-              value={url_}
-              onChange={handleUrlChange_}
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
             />
           </label>
         </div>

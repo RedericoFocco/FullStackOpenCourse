@@ -16,9 +16,6 @@ const App = () => {
   const [wrongLoginMsg, setWrongLoginMsg] = useState('')
   const [newBlogMsg, setNewBlogMsg] = useState('') 
   const [user, setUser] = useState(null)
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
   const [showBlogs, setShowBlogs] = useState(false)
   const [newLikes, setNewLikes] = useState(false) 
  
@@ -77,22 +74,7 @@ const App = () => {
       )
   }
   
-  const createBlog = () => {
-      return (
-        <Togglable buttonLabel="New Blog">
-          <CreateBlog 
-            handleNewBlog_={handleNewBlog}
-            title_={title}
-            handleTitleChange_={( { target } ) => setTitle(target.value)}
-            author_={author}
-            handleAuthorChange_={( { target } ) => setAuthor(target.value)}
-            url_={url}
-            handleUrlChange_={({ target } ) => setUrl(target.value)}
-            newBlogMsg_={newBlogMsg}
-          />
-        </Togglable>
-      )
-    }
+  
   /*const createBlog = () => {
       return (
     <>
@@ -163,6 +145,35 @@ const App = () => {
 
   }
 
+  const handleNewBlog = async (blogObject) => {
+     const postObj = { title_:blogObject.title,author_:blogObject.author,url_:blogObject.url,token_:user.token,userId_:user.userId }
+     try
+     {
+       const response = await blogService.postNewBlog(postObj)
+       console.log('response',response)
+       setNewBlogMsg(`new blog named ${response.title} added!`)
+       setTimeout(() => {setNewBlogMsg(null)},msgDelaySec)
+       console.log('showBlogs',showBlogs)
+       const sb = showBlogs
+       setShowBlogs(!sb)
+     }
+     catch
+     {
+       console.log('new blog service error!')
+     }
+   }
+
+  const createBlog = () => {
+      return (
+        <Togglable buttonLabel="New Blog">
+          <CreateBlog 
+            handleNewBlog_={handleNewBlog}
+            newBlogMsg_={newBlogMsg}
+          />
+        </Togglable>
+      )
+    }
+
   const handleBlogDeletion = async (blog) => {
     console.log('passed blog:',blog)
     if (blog)
@@ -186,25 +197,6 @@ const App = () => {
       {
         console.log(`Refused to delete blog ${blog.title}`)
       }
-    }
-  }
-
-  const handleNewBlog = async eventClick => {
-    eventClick.preventDefault()
-    const postObj = { title_:title,author_:author,url_:url,token_:user.token,userId_:user.userId }
-    try
-    {
-      const response = await blogService.postNewBlog(postObj)
-      console.log('response',response)
-      setNewBlogMsg(`new blog named ${response.title} added!`)
-      setTimeout(() => {setNewBlogMsg(null)},msgDelaySec)
-      console.log('showBlogs',showBlogs)
-      const sb = showBlogs
-      setShowBlogs(!sb)
-    }
-    catch
-    {
-      console.log('new blog service error!')
     }
   }
 
