@@ -17,7 +17,7 @@ const App = () => {
     dispatch(addNewAnectode(anecdoteContent))
 
   }
-
+ 
   return (
     <div>
       <h2>Anecdotes</h2>
