@@ -49,7 +49,7 @@ const reducer = (state = initialState, action) => {
           ...votedAnectode,
           votes:votedAnectode.votes+1
         }
-        return state.map(a=>a.id !== action.payload.id ? a : newAnectode)
+        return state.map(a=>a.id !== action.payload.id ? a : newAnectode).sort((a,b)=>b.votes-a.votes)
     }
     case 'ADD_NEW_ANECTODE':
       {
