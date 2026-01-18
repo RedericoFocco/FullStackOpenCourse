@@ -22,7 +22,6 @@ const AnecdoteList = () => {
           </div>
         </div>
       ))}
-      <NewAnecdoteForm />
     </div>
   )
 }
