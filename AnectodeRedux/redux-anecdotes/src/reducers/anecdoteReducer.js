@@ -24,9 +24,9 @@ export const addNewVote = id => {
   }
 }
 
-export const addNewAnectode = content => {
+export const addNewAnecdote = content => {
   return  {
-    type : 'ADD_NEW_ANECTODE',
+    type : 'ADD_NEW_ANECDOTE',
     payload : { 
       content,
       id: getId(),
@@ -44,14 +44,14 @@ const reducer = (state = initialState, action) => {
   {
     case 'ADD_VOTE':
       {
-        const votedAnectode = state.find(a=>a.id===action.payload.id)
-        const newAnectode = {
-          ...votedAnectode,
-          votes:votedAnectode.votes+1
+        const votedAnecdote = state.find(a=>a.id===action.payload.id)
+        const newAnecdote = {
+          ...votedAnecdote,
+          votes:votedAnecdote.votes+1
         }
-        return state.map(a=>a.id !== action.payload.id ? a : newAnectode).sort((a,b)=>b.votes-a.votes)
+        return state.map(a=>a.id !== action.payload.id ? a : newAnecdote).sort((a,b)=>b.votes-a.votes)
     }
-    case 'ADD_NEW_ANECTODE':
+    case 'ADD_NEW_ANECDOTE':
       {
         return [...state,action.payload] 
       }
