@@ -1,8 +1,12 @@
-import { useSelector,useDispatch } from 'react-redux'
+import { useSelector} from 'react-redux'
 
 const Notification = () => {
-
   
+  const notificationToDisplay = useSelector(({anecdotes,filter,notification})=>{
+      console.log(`ANECDOTES:${anecdotes},FILTER:${filter},NOTIFICATION:${notification}`)
+      return notification 
+    }
+    )
 
   const style = {
     border: 'solid',
@@ -11,7 +15,10 @@ const Notification = () => {
     marginBottom: 10
   }
 
-  return <div style={style}>render here notification...</div>
+  if (notificationToDisplay!=='')
+    return <div style={style}>Voted {notificationToDisplay}!</div>
+  else
+    return <div/>
 }
 
 export default Notification
