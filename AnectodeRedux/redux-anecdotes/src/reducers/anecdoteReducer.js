@@ -17,13 +17,14 @@ const anecdoteSlice = createSlice({
     },
     addNewAnecdote(state,action){
       console.log("new anecdote action",action.payload)  
-      console.log("new anecdote state",current(state))
+      /*console.log("new anecdote state",current(state))
       const newAnecdote = {
           content:action.payload,
           id: getId(),
           votes:0
       }
-      return [...state,newAnecdote] 
+      return [...state,newAnecdote] */
+      state.push(action.payload)
     },
     setAnecdotes(state, action) {
       return action.payload
