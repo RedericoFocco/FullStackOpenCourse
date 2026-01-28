@@ -16,7 +16,7 @@ const Notification = () => {
   }
 
   if (notificationToDisplay!=='')
-    return <div style={style}>Voted {notificationToDisplay}!</div>
+    return <div style={style}>{notificationToDisplay}</div>
   else
     return <div/>
 }
