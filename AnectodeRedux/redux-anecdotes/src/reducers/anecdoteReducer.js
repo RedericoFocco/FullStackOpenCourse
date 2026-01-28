@@ -38,9 +38,11 @@ const {addNewVote,addNewAnecdote,setAnecdotes} = anecdoteSlice.actions
 
 export const newVote = (id) => {
   return async (dispatch) => {
+    console.log('in newVote')
     const votedAnecdote = await anecdotesService.updateVote(id)
+    console.log('in newVote votedAnecdote',votedAnecdote)
     dispatch(addNewVote(votedAnecdote.id))
-    dispatch(displayNotificationVote(votedAnecdote))
+    dispatch(displayNotificationVote(votedAnecdote.content))
     setTimeout(() => {dispatch(displayNotificationVote(''))}, 3000);    
   }
 }

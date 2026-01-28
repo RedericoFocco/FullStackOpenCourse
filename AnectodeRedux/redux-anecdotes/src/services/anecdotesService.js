@@ -11,6 +11,17 @@ const getAll = async () => {
   return data
 }
 
+const getAnecdote = async (id) => {
+  const response = await fetch(`${baseUrl}/${id}`)
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch notes')
+  }
+
+  const data = await response.json()
+  return data
+}
+
 const createNewAnecdote = async (content) => {
   const options = {
     method: 'POST',
@@ -29,16 +40,17 @@ const createNewAnecdote = async (content) => {
 
 const updateVote = async (id) => {
 
-  const anecdotesList = await getAll()
-  const targetedVote = anecdotesList.filter(a=>a.id===id)
+  console.log('...updatingVote service...')
 
+  const targetAnecdote = await getAnecdote(id)
+  console.log(`got targetAnecdote ${targetAnecdote}`)
   const options = {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({content:targetedVote.content, votes:targetedVote.votes+1}),
+    body: JSON.stringify({content:targetAnecdote.content,votes:targetAnecdote.votes+1}),
   }
   
-  const response = await fetch(baseUrl, options)
+  const response = await fetch(`${baseUrl}/${id}`, options)
 
   if (!response.ok) {
     throw new Error('Failed to create note')
