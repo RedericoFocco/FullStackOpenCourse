@@ -6,7 +6,7 @@ import anecdotesService from '../services/anecdotesService'
 const messageShownSec=3000 
 
 const NewAnecdoteForm = () => {
-    const dispatch=useDispatch()
+    const dispatch=useDispatch() 
 
     const newAnecdote = async(event) => {
     event.preventDefault()
