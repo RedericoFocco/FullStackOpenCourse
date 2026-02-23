@@ -14,7 +14,8 @@ const Menu = ({anecdotes,addNewAnecdote}) => {
   const padding = {
     paddingRight: 5
   }
-
+  console.log("addNewAnecdote",addNewAnecdote)
+  console.log("addNewAnecdote",typeof(addNewAnecdote))
   const match = useMatch('/anecdotes/:id')
   const anecdote = match 
     ? anecdotes.find(a => a.id === Number(match.params.id))
@@ -30,7 +31,7 @@ const Menu = ({anecdotes,addNewAnecdote}) => {
       
         <Routes>
           <Route path="/about" element={<About />}/>
-          <Route path="/createNew" element={<CreateNew props={addNewAnecdote} />}/>
+          <Route path="/createNew" element={<CreateNew addNew={addNewAnecdote} />}/>
           <Route path="/anecdotes" element={<AnecdoteList anecdotesList={anecdotes} />}/>
           <Route path="/anecdotes/:id" element={<AnecdoteDetail singleAnecdote={anecdote} />}/>
         </Routes>
