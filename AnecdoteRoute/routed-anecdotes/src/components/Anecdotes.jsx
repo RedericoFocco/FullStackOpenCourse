@@ -3,10 +3,11 @@ import {
 } from 'react-router-dom'
 
 
-const AnecdoteList = ({ anecdotesList }) => {
+const AnecdoteList = ({ anecdotesList,notification }) => {
     return (
   <div>
-    <h2>Anecdotes</h2>
+    <h1>Anecdotes</h1>
+    <h2>{notification}</h2>
     <ul>
       {anecdotesList.map(anecdote => 
       <li key={anecdote.id} >

@@ -5,12 +5,13 @@ import CreateNew from './components/NewAnecdote'
 import AnecdoteDetail from './components/AnecdoteDetail'
 import {
   BrowserRouter as Router,
-  Routes, Route, Link,
+  Routes, Route, Link,Navigate,
   useMatch
 } from 'react-router-dom'
 
 
-const Menu = ({anecdotes,addNewAnecdote}) => {
+const Menu = ({anecdotes,addNewAnecdote,notification}) => {
+  console.log("notification",notification)
   const padding = {
     paddingRight: 5
   }
@@ -31,8 +32,8 @@ const Menu = ({anecdotes,addNewAnecdote}) => {
       
         <Routes>
           <Route path="/about" element={<About />}/>
-          <Route path="/createNew" element={<CreateNew addNew={addNewAnecdote} />}/>
-          <Route path="/anecdotes" element={<AnecdoteList anecdotesList={anecdotes} />}/>
+          <Route path="/createNew" element={notification==='' ? <CreateNew addNew={addNewAnecdote} />:<Navigate replace to="/anecdotes"/>}/>
+          <Route path="/anecdotes" element={<AnecdoteList anecdotesList={anecdotes} notification={notification}/>}/>
           <Route path="/anecdotes/:id" element={<AnecdoteDetail singleAnecdote={anecdote} />}/>
         </Routes>
       </div>
@@ -72,6 +73,8 @@ const App = () => {
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification(`${anecdote.content} created`)
+    setTimeout(()=>setNotification(''),3000)
   }
 
   const anecdoteById = (id) =>
@@ -95,7 +98,7 @@ const App = () => {
   return (
       <div>
         <h1>Software anecdotes</h1>
-        <Menu anecdotes={anecdotes} addNewAnecdote={addNew}/>
+        <Menu anecdotes={anecdotes} addNewAnecdote={addNew} notification={notification} />
         <Footer />
       </div>
   )
