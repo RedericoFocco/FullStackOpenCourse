@@ -8,6 +8,7 @@ import {
   Routes, Route, Link,Navigate,
   useMatch
 } from 'react-router-dom'
+import {useField,useFieldArray} from './hooks'
 
 
 const Menu = ({anecdotes,addNewAnecdote,notification}) => {
@@ -51,30 +52,17 @@ const Footer = () => (
 
 
 const App = () => {
-  const [anecdotes, setAnecdotes] = useState([
-    {
-      content: 'If it hurts, do it more often',
-      author: 'Jez Humble',
-      info: 'https://martinfowler.com/bliki/FrequencyReducesDifficulty.html',
-      votes: 0,
-      id: 1
-    },
-    {
-      content: 'Premature optimization is the root of all evil',
-      author: 'Donald Knuth',
-      info: 'http://wiki.c2.com/?PrematureOptimization',
-      votes: 0,
-      id: 2
-    }
-  ])
+  const anecdotesHook = useFieldArray()
 
-  const [notification, setNotification] = useState('')
+  const anecdotes = anecdotesHook.value
+
+  const notification = useField('')
 
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
-    setAnecdotes(anecdotes.concat(anecdote))
-    setNotification(`${anecdote.content} created`)
-    setTimeout(()=>setNotification(''),3000)
+    anecdotesHook.addElementToArray(anecdote)
+    notification.setValue_(`${anecdote.content} created`)
+    setTimeout(()=>notification.resetValue(),3000)
   }
 
   const anecdoteById = (id) =>
@@ -88,7 +76,7 @@ const App = () => {
       votes: anecdote.votes + 1
     }
 
-    setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
+    anecdotesHook.setVote(voted,id)
   }
 
    const padding = {
@@ -98,7 +86,7 @@ const App = () => {
   return (
       <div>
         <h1>Software anecdotes</h1>
-        <Menu anecdotes={anecdotes} addNewAnecdote={addNew} notification={notification} />
+        <Menu anecdotes={anecdotes} addNewAnecdote={addNew} notification={notification.value} />
         <Footer />
       </div>
   )
