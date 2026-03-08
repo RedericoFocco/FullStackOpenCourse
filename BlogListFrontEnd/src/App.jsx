@@ -5,6 +5,7 @@ import loginService from './services/login'
 //import Togglable from './components/Togglable'
 import CreateBlog from './components/CreateBlog'
 import Togglable from './components/Togglable'
+import Notification from './components/Notification.jsx'
 import { useDispatch } from 'react-redux'
 
 const msgDelaySec = 5000 
@@ -244,7 +245,7 @@ const App = () => {
       {user && createBlog()}
       {user && logoutForm()}
       {!user && loginForm()}
-        
+      <Notification/>
     </div>
   )
 }

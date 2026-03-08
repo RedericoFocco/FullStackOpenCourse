@@ -1,6 +1,12 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { Notify } from '../reducers/notificationReducer'
+
+
 
 const CreateBlog = ( { handleNewBlog_,newBlogMsg_} ) => {
+
+  const dispatch = useDispatch()
 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -17,6 +23,7 @@ const CreateBlog = ( { handleNewBlog_,newBlogMsg_} ) => {
     setTitle('')
     setAuthor('')
     setUrl('')
+    dispatch(Notify(`${title} inserted!`))
   }
 
       return (
