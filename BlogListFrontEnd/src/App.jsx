@@ -5,6 +5,7 @@ import loginService from './services/login'
 //import Togglable from './components/Togglable'
 import CreateBlog from './components/CreateBlog'
 import Togglable from './components/Togglable'
+import { useDispatch } from 'react-redux'
 
 const msgDelaySec = 5000 
 
@@ -19,6 +20,8 @@ const App = () => {
   const [showBlogs, setShowBlogs] = useState(false)
   const [newLikes, setNewLikes] = useState(false) 
  
+  const dispatch = useDispatch()
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
@@ -240,7 +243,8 @@ const App = () => {
       {user && blogList()}
       {user && createBlog()}
       {user && logoutForm()}
-      {!user && loginForm()}  
+      {!user && loginForm()}
+        
     </div>
   )
 }
