@@ -1,0 +1,17 @@
+{
+  "name": "graphqlfoc8",
+  "version": "1.0.0",
+  "description": "graph ql exercises",
+  "main": "library-backend.js",
+  "scripts": {
+    "start":"node library-backend.js",
+    "dev":"node --watch library-backend.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/server": "^5.4.0",
+    "graphql": "^16.13.1"
+  }
+}
