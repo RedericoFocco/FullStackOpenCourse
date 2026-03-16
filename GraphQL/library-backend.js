@@ -121,7 +121,7 @@ const typeDefs = /* GraphQL */ `
   type Query {
     authorsCount: Int!
     bookCount: Int!
-    allBooks(author:String!): [Book!]!
+    allBooks(author:String,genres:String): [Book!]!
     allAuthors: [Author]!
   }
 `
@@ -130,7 +130,26 @@ const resolvers = {
   Query: {
     authorsCount: ()=> authors.length,
     bookCount: ()=> books.length,
-    allBooks: (root,args)=>books.filter(b=>b.author===args.author),
+    allBooks: (root,args)=>books.filter((b)=>{
+      if(args.author != null && args.genres != null)
+      {
+        console.log('args.author',args.author)
+        console.log('args.genres',args.genres)
+        return (b.author===args.author && b.genres.includes(args.genres))
+      }
+      else if(args.author !=null)
+      {
+        return b.author===args.author
+      }
+      else if (args.genres!=null)
+      {
+        return b.genres===args.genres
+      }
+      else
+      {
+        return books
+      }
+    }),
     allAuthors:()=>authors
   },
   Author:{
