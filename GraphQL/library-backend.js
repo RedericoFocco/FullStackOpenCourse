@@ -50,6 +50,13 @@ let books = [
     genres: ['refactoring']
   },
   {
+    title: 'Clean Code2',
+    published: 2009,
+    author: 'Robert Martin',
+    id: "vfa5b6f4-344d-11e9-a414-719c6709cf3e",
+    genres: ['refactoring']
+  },
+  {
     title: 'Agile software development',
     published: 2002,
     author: 'Robert Martin',
@@ -124,7 +131,11 @@ const resolvers = {
     authorsCount: ()=> authors.length,
     bookCount: ()=> books.length,
     allBooks: ()=>books,
-    allAuthors: ()=> authors.map(a=>a.id)
+    allAuthors:()=>authors
+  },
+  Author:{
+    name: (root)=>root.name,
+    bookCount: (root)=>books.filter(b=>b.author===root.name ).length
   }
 }
 
