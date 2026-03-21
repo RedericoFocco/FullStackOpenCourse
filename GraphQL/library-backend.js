@@ -186,13 +186,17 @@ const resolvers = {
         return newBook
     },
     editAuthor: (root,args)=>{
-      if(!authors.find(p=>p.author.name===args.name))
+      console.log("in editAuthor")
+      console.log("args.name",args.name)
+      console.log(authors.find(p=>p.name===args.name))
+      if(!authors.find(p=>p.name===args.name))
         {
+          console.log("no author found with that name")
           return null
         }
       else{
-        authorToModify = authors.find(p=>p.author.name===args.name)
-        const newAuthorBorn = {...authorToModify,born:args.born}
+        authorToModify = authors.find(p=>p.name===args.name)
+        const newAuthorBorn = {...authorToModify,born:args.setBornTo}
         const newAuthors = authors.map(x=>x.name===args.name?newAuthorBorn:x)
         return {"name":newAuthorBorn.name,"born":newAuthorBorn.born}
       }
