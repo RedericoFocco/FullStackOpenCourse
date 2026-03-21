@@ -120,6 +120,7 @@ const typeDefs = /* GraphQL */ `
 
   type Author {
     name: String!
+    born: Int,
     bookCount: Int!
   }
 
@@ -174,10 +175,11 @@ const resolvers = {
         const newAuthor = args.author
         if(!authors.find(p=>p.author===newAuthor))
         {
-          authors.concat({"name":newAuthor,"id":uuid()})
+          authors=authors.concat({"name":newAuthor,"id":uuid()})
         }
-        books.concat(newBook)
-        return books
+        books=books.concat(newBook)
+        console.log("books now:",books)
+        return newBook
     }
   }
 }
