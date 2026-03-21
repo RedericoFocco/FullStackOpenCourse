@@ -199,8 +199,8 @@ const resolvers = {
         const newAuthorBorn = {...authorToModify,born:args.setBornTo}
         const newAuthors = authors.map(x=>x.name===args.name?newAuthorBorn:x)
         return {"name":newAuthorBorn.name,"born":newAuthorBorn.born}
-      }
-    }
+      } 
+    } 
   }
 }
 
